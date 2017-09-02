@@ -1,4 +1,5 @@
 package hpp.flixel.ui;
+
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 import flixel.FlxG;
@@ -67,7 +68,11 @@ class HPPButton extends FlxUIButton
 		super.onOverHandler();
 		
 		scale.set( overScale, overScale );
-		label.scale.set( overScale, overScale );
+		
+		if ( label != null )
+		{
+			label.scale.set( overScale, overScale );
+		}
 	}
 	
 	override private function onOutHandler():Void
@@ -75,7 +80,11 @@ class HPPButton extends FlxUIButton
 		super.onOutHandler();
 		
 		scale.set( 1, 1 );
-		label.scale.set( 1, 1 );
+		
+		if ( label != null )
+		{
+			label.scale.set( 1, 1 );
+		}
 	}
 	
 	public function set_labelSize( value:Int ):Int 
