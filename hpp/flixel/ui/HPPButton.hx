@@ -1,6 +1,8 @@
 package hpp.flixel.ui;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.addons.ui.FlxUIButton;
 import flixel.input.IFlxInput;
 import flixel.math.FlxPoint;
@@ -16,6 +18,7 @@ class HPPButton extends FlxUIButton
 	public static inline var MOUSE_CLICK_RECT_OFFSET:Float = 10;
 	
 	public var overScale:Float = 1;
+	public var labelSize( default, set ):Int = 8;
 	
 	var realOnClick:Void->Void;
 	var mouseDownTime:Float;
@@ -23,7 +26,7 @@ class HPPButton extends FlxUIButton
 	
 	public function new( label:String, onClick:Void->Void = null )
 	{
-		super( 0, 0, null, null );
+		super( 0, 0, label, null );
 		
 		realOnClick = onClick;
 		mouseDownRect = new FlxRect();
@@ -64,6 +67,7 @@ class HPPButton extends FlxUIButton
 		super.onOverHandler();
 		
 		scale.set( overScale, overScale );
+		label.scale.set( overScale, overScale );
 	}
 	
 	override private function onOutHandler():Void
@@ -71,5 +75,22 @@ class HPPButton extends FlxUIButton
 		super.onOutHandler();
 		
 		scale.set( 1, 1 );
+		label.scale.set( 1, 1 );
+	}
+	
+	public function set_labelSize( value:Int ):Int 
+	{
+		label.size = value;
+		autoCenterLabel();
+		
+		return labelSize = value;
+	}
+	
+	override public function graphicLoaded():Void 
+	{
+		super.graphicLoaded();
+		
+		label.fieldWidth = width;
+		autoCenterLabel();
 	}
 }
