@@ -90,7 +90,10 @@ class HPPButton extends FlxUIButton
 	{
 		super.graphicLoaded();
 		
-		label.fieldWidth = width;
-		autoCenterLabel();
+		if ( label != null )
+		{
+			label.fieldWidth = width;
+			autoCenterLabel();
+		}
 	}
 }
