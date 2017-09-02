@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TextureAtlas imagePath="demo_atlas.png">
+	<SubTexture name="frame" x="0" y="0" width="1136" height="75" pivotX="0" pivotY="0"/>
+	<SubTexture name="logo" x="110" y="80" width="123" height="40" pivotX="0" pivotY="0"/>
+	<SubTexture name="demo_content_box" x="0" y="80" width="100" height="100" pivotX="0" pivotY="0"/>
+	<SubTexture name="menu_button" x="243" y="80" width="400" height="60" pivotX="0" pivotY="0"/>
+</TextureAtlas>
