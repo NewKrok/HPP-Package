@@ -1,4 +1,4 @@
-package hppdemo.commonview;
+package hppdemo.view;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

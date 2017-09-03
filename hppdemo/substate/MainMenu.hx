@@ -3,7 +3,8 @@ package hppdemo.substate;
 import flixel.FlxG;
 import flixel.FlxSubState;
 import hpp.flixel.ui.HPPButton;
-import hppdemo.commonview.MenuButton;
+import hppdemo.view.MenuButton;
+import hppdemo.state.MainState.SubStateType;
 
 /**
  * ...
@@ -11,19 +12,27 @@ import hppdemo.commonview.MenuButton;
  */
 class MainMenu extends FlxSubState
 {
-	var scrollContainerDemoButton:HPPButton;
+	var touchScrollContainerDemoButton:HPPButton;
+	var changeSubStateCallback:SubStateType->Void;
 	
-	public function new() 
+	public function new( changeSubStateCallback:SubStateType->Void )
 	{
 		super();
 		
-		add( scrollContainerDemoButton = new MenuButton( "HPPScrollContainer", openHPPScrollContainerDemo ) );
-		scrollContainerDemoButton.x = FlxG.width / 2 - scrollContainerDemoButton.width / 2;
-		scrollContainerDemoButton.y = FlxG.height / 2 - scrollContainerDemoButton.height / 2;
+		this.changeSubStateCallback = changeSubStateCallback;
+		
+		build();
 	}
 	
-	function openHPPScrollContainerDemo() 
+	function build():Void 
 	{
-		
+		add( touchScrollContainerDemoButton = new MenuButton( "HPPTouchScrollContainer", openHPPTouchScrollContainerDemo ) );
+		touchScrollContainerDemoButton.x = FlxG.width / 2 - touchScrollContainerDemoButton.width / 2;
+		touchScrollContainerDemoButton.y = FlxG.height / 2 - touchScrollContainerDemoButton.height / 2;
+	}
+	
+	function openHPPTouchScrollContainerDemo() 
+	{
+		changeSubStateCallback( SubStateType.STATE_HPP_TOUCH_SCROLL_CONTAINER );
 	}
 }

@@ -1,4 +1,4 @@
-package hppdemo.commonview;
+package hppdemo.view;
 
 import hpp.flixel.ui.HPPButton;
 import hpp.flixel.util.HPPAssetManager;
@@ -12,12 +12,10 @@ class MenuButton extends HPPButton
 {
 	public function new( labelText:String, onClick:Void->Void = null ) 
 	{
-		super( labelText, onClick );
+		super( labelText, onClick, "menu_button" );
 		
 		overScale = .95;
 		labelSize = 25;
 		label.font = Fonts.DEFAULT_FONT;
-		
-		loadGraphic( HPPAssetManager.getGraphic( "menu_button" ) );
 	}
 }

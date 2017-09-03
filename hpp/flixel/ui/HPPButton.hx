@@ -1,6 +1,7 @@
 package hpp.flixel.ui;
 
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import hpp.flixel.util.HPPAssetManager;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -24,13 +25,20 @@ class HPPButton extends FlxUIButton
 	var realOnClick:Void->Void;
 	var mouseDownTime:Float;
 	var mouseDownRect:FlxRect;
+	var cameraRect:FlxRect;
 	
-	public function new( label:String, onClick:Void->Void = null )
+	public function new( label:String = "", onClick:Void->Void = null, graphicId:String = null )
 	{
-		super( 0, 0, label, null );
+		super( 0, 0, label, null, false, true );
 		
 		realOnClick = onClick;
 		mouseDownRect = new FlxRect();
+		cameraRect = new FlxRect();
+		
+		if ( graphicId != null )
+		{
+			loadGraphic( HPPAssetManager.getGraphic( graphicId ) );
+		}
 	}
 	
 	override function updateStatus( input:IFlxInput ):Void
@@ -50,10 +58,14 @@ class HPPButton extends FlxUIButton
 	{
 		super.onUpHandler();
 		
+		cameraRect.set( camera.x, camera.y, camera.width, camera.height );
+		var mousePoint:FlxPoint = new FlxPoint( FlxG.stage.mouseX, FlxG.stage.mouseY );
+		
 		if ( isMouseInteractionEnabled()
 			&& Date.now().getTime() - mouseDownTime < CLICK_MAX_TIME
-			&& mouseDownRect.containsPoint( new FlxPoint( FlxG.stage.mouseX, FlxG.stage.mouseY ) ) )
-		{
+			&& mouseDownRect.containsPoint( mousePoint )
+			&& cameraRect.containsPoint( mousePoint )
+		) {
 			realOnClick();
 		}
 	}
@@ -87,6 +99,7 @@ class HPPButton extends FlxUIButton
 		}
 	}
 	
+	// Fix for: When you change the size on the label sometimes it doesn't update the text position
 	public function set_labelSize( value:Int ):Int 
 	{
 		label.size = value;
