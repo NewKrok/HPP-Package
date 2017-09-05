@@ -50,8 +50,8 @@ class HPPButton extends FlxUIButton
 			mouseDownTime = Date.now().getTime();
 			mouseDownRect.set( 	FlxG.stage.mouseX - MOUSE_CLICK_RECT_OFFSET,
 								FlxG.stage.mouseY - MOUSE_CLICK_RECT_OFFSET,
-								FlxG.stage.mouseX + MOUSE_CLICK_RECT_OFFSET,
-								FlxG.stage.mouseX + MOUSE_CLICK_RECT_OFFSET );
+								MOUSE_CLICK_RECT_OFFSET,
+								MOUSE_CLICK_RECT_OFFSET );
 		}
 	}
 	override function onUpHandler():Void 

@@ -1,5 +1,6 @@
 package hppdemo.view;
 
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 
@@ -9,11 +10,15 @@ import flixel.util.FlxColor;
  */
 class ScrollPage extends FlxSpriteGroup
 {
+	var baseBack:FlxSprite;
+	
 	public function new( pageWidth:Int, pageHeight:Int, startContentId:UInt, maxCol:UInt, maxRow:UInt, horizontalScrollElements:Array<ContentBox>, onContentSelect:ContentBox->Void ) 
 	{
 		super();
 		
-		makeGraphic( pageWidth, pageHeight, FlxColor.TRANSPARENT );
+		add( baseBack = new FlxSprite() );
+		baseBack.makeGraphic( pageWidth, pageHeight, FlxColor.TRANSPARENT );
+		
 		var baseContainer:FlxSpriteGroup = new FlxSpriteGroup();
 		add( baseContainer );
 		

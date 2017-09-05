@@ -43,7 +43,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	public function new( pageWidth:Int, pageHeight:Int, direction:ScrollDirection = ScrollDirection.HORIZONTAL, snapToPages:Bool = false ) 
 	{
 		super();
-		
+
 		this.pageWidth = pageWidth;
 		this.pageHeight = pageHeight;
 		this.direction = direction;
@@ -165,12 +165,12 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		if ( direction == ScrollDirection.HORIZONTAL )
 		{
 			tweenValues = { x: x + pageIndex * -pageWidth };
-			speedBasedOnDistance = Math.abs( ( subContainer.x - pageIndex * -pageWidth ) / pageWidth * CHANGE_PAGE_MAX_SPEED );
+			speedBasedOnDistance = Math.abs( subContainer.x - ( x + pageIndex * -pageWidth ) ) / pageWidth * CHANGE_PAGE_MAX_SPEED;
 		}
 		else
 		{
 			tweenValues = { y: y + pageIndex * -pageHeight };
-			speedBasedOnDistance = Math.abs( ( subContainer.y - pageIndex * -pageHeight ) / pageHeight * CHANGE_PAGE_MAX_SPEED );
+			speedBasedOnDistance = Math.abs( subContainer.y - ( y + pageIndex * -pageHeight ) ) / pageHeight * CHANGE_PAGE_MAX_SPEED;
 		}
 		
 		tween = FlxTween.tween( 

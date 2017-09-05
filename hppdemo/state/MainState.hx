@@ -27,6 +27,9 @@ class MainState extends FlxState
 		persistentUpdate = true;
 		destroySubStates = false;
 		
+		FlxG.mouse.unload();
+		FlxG.mouse.useSystemCursor = true;
+		
 		loadAssets();
 		build();
 		openSubState( mainMenu );
