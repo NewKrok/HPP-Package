@@ -18,15 +18,16 @@ import flixel.util.FlxSpriteUtil;
  */
 class HPPTouchScrollContainer extends FlxSpriteGroup
 {
-	public static var MINIMUM_DRAG_PERCENT_TO_CHANGE_PAGE:Float = .25;
-	public static var MAX_OVER_DRAG_PERCENT:Float = .2;
-	public static var CHANGE_PAGE_MAX_SPEED:Float = .6;
-	public static var CHANGE_PAGE_EASING_TYPE:Float->Float = FlxEase.quadOut;
+	private static inline var DISABLE_UPDATE_TIME:Float = 200;
+	
+	private static var activeTouchScroll:HPPTouchScrollContainer;
 	
 	public var pageHeight:Int;
 	public var pageWidth:Int;
 	
-	var direction:ScrollDirection;
+	var config:HPPTouchScrollContainerConfig;
+	
+	var direction:HPPScrollDirection;
 	var snapToPages:Bool;
 	var isTouchDragActivated:Bool;
 	var touchStartPosition:FlxPoint;
@@ -39,18 +40,18 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	var pageIndex:Int = 0;
 	var calculatedMinimumDragPercentToChangePage:Float = 0;
 	var calculatedMaxOverDragPercent:Float = 0;
+	var scrollStartTime:Float = 0;
 	
-	public function new( pageWidth:Int, pageHeight:Int, direction:ScrollDirection = ScrollDirection.HORIZONTAL, snapToPages:Bool = false ) 
+	public function new( pageWidth:Int, pageHeight:Int, config:HPPTouchScrollContainerConfig = null ) 
 	{
 		super();
 
 		this.pageWidth = pageWidth;
 		this.pageHeight = pageHeight;
-		this.direction = direction;
-		this.snapToPages = snapToPages;
+		this.config = config == null ? new HPPTouchScrollContainerConfig() : config;
 		
-		calculatedMinimumDragPercentToChangePage = ( direction == ScrollDirection.HORIZONTAL ? pageWidth : pageHeight ) * MINIMUM_DRAG_PERCENT_TO_CHANGE_PAGE;
-		calculatedMaxOverDragPercent = ( direction == ScrollDirection.HORIZONTAL ? pageWidth : pageHeight ) * MAX_OVER_DRAG_PERCENT;
+		calculatedMinimumDragPercentToChangePage = ( this.config.direction == HPPScrollDirection.HORIZONTAL ? pageWidth : pageHeight ) * this.config.minimumDragPercentToChangePage;
+		calculatedMaxOverDragPercent = ( this.config.direction == HPPScrollDirection.HORIZONTAL ? pageWidth : pageHeight ) * this.config.maxOverDragPercent;
 		containerRect = new FlxRect();
 		
 		build();
@@ -74,41 +75,49 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	
 	override public function update( elapsed:Float ):Void 
 	{
-		super.update( elapsed );
-		
 		containerRect.set( x, y, pageWidth, pageHeight );
 		
-		if ( FlxG.mouse.pressed && containerRect.containsPoint( new FlxPoint( FlxG.stage.mouseX, FlxG.stage.mouseY ) ) )
+		if ( FlxG.mouse.pressed && ( activeTouchScroll == null || activeTouchScroll == this ) )
 		{
-			if ( !isTouchDragActivated )
+			if ( containerRect.containsPoint( new FlxPoint( FlxG.stage.mouseX, FlxG.stage.mouseY ) ) )
 			{
-				touchStartPosition = new FlxPoint( x + FlxG.mouse.getPosition().x, y + FlxG.mouse.getPosition().y );
-				containerTouchStartPosition = new FlxPoint( subContainer.x, subContainer.y );
+				if ( !isTouchDragActivated )
+				{
+					touchStartPosition = new FlxPoint( x + FlxG.mouse.getPosition().x, y + FlxG.mouse.getPosition().y );
+					containerTouchStartPosition = new FlxPoint( subContainer.x, subContainer.y );
+					scrollStartTime = Date.now().getTime();
+				}
+				
+				isTouchDragActivated = true;
+				
+				activeTouchScroll = this;
 			}
 			
-			isTouchDragActivated = true;
-			
-			if ( direction == ScrollDirection.HORIZONTAL )
+			if ( isTouchDragActivated )
 			{
-				subContainer.x = containerTouchStartPosition.x + FlxG.mouse.getPosition().x - touchStartPosition.x;
+				if ( config.direction == HPPScrollDirection.HORIZONTAL )
+				{
+					subContainer.x = containerTouchStartPosition.x + FlxG.mouse.getPosition().x - touchStartPosition.x;
+				}
+				else
+				{
+					subContainer.y = containerTouchStartPosition.y + FlxG.mouse.getPosition().y - touchStartPosition.y;
+				}
+				
+				normalizePosition();
 			}
-			else
-			{
-				subContainer.y = containerTouchStartPosition.y + FlxG.mouse.getPosition().y - touchStartPosition.y;
-			}
-			
-			normalizePosition();
 		}
-		else if ( isTouchDragActivated && FlxG.mouse.justReleased && snapToPages )
+		else if ( isTouchDragActivated && FlxG.mouse.justReleased && config.snapToPages )
 		{
 			var dragDistance:Float = containerTouchStartPosition.distanceTo( new FlxPoint( subContainer.x, subContainer.y ) );
 			
-			if ( direction == ScrollDirection.HORIZONTAL )
+			if ( config.direction == HPPScrollDirection.HORIZONTAL )
 			{
 				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.x > subContainer.x && pageIndex < Math.ceil( subContainer.width / pageWidth ) - 1 )
 				{
 					moveToPage( pageIndex + 1 );
-				} else if ( dragDistance >= calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.x < subContainer.x && pageIndex > 0 )
+				}
+				else if ( dragDistance >= calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.x < subContainer.x && pageIndex > 0 )
 				{
 					moveToPage( pageIndex - 1 );
 				}
@@ -122,7 +131,8 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.y > subContainer.y && pageIndex < Math.ceil( subContainer.height / pageHeight ) - 1 )
 				{
 					moveToPage( pageIndex + 1 );
-				} else if ( dragDistance >= calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.y < subContainer.y && pageIndex > 0 )
+				}
+				else if ( dragDistance >= calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.y < subContainer.y && pageIndex > 0 )
 				{
 					moveToPage( pageIndex - 1 );
 				}
@@ -131,16 +141,23 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 					moveToPage( pageIndex );
 				}
 			}
+			
+			activeTouchScroll = null;
 		}
 		else
 		{
 			isTouchDragActivated = false;
 		}
+		
+		if ( Date.now().getTime() - scrollStartTime < DISABLE_UPDATE_TIME )
+		{
+			super.update( elapsed );
+		}
 	}
 	
 	function normalizePosition() 
 	{
-		if ( direction == ScrollDirection.HORIZONTAL )
+		if ( config.direction == HPPScrollDirection.HORIZONTAL )
 		{
 			subContainer.x = Math.min( subContainer.x, calculatedMaxOverDragPercent );
 			subContainer.x = Math.max( subContainer.x, -subContainer.width + pageWidth - calculatedMaxOverDragPercent );
@@ -162,22 +179,22 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		
 		var speedBasedOnDistance:Float;
 		var tweenValues:Dynamic;
-		if ( direction == ScrollDirection.HORIZONTAL )
+		if ( config.direction == HPPScrollDirection.HORIZONTAL )
 		{
 			tweenValues = { x: x + pageIndex * -pageWidth };
-			speedBasedOnDistance = Math.abs( subContainer.x - ( x + pageIndex * -pageWidth ) ) / pageWidth * CHANGE_PAGE_MAX_SPEED;
+			speedBasedOnDistance = Math.abs( subContainer.x - ( x + pageIndex * -pageWidth ) ) / pageWidth * config.changePageMaxSpeed;
 		}
 		else
 		{
 			tweenValues = { y: y + pageIndex * -pageHeight };
-			speedBasedOnDistance = Math.abs( subContainer.y - ( y + pageIndex * -pageHeight ) ) / pageHeight * CHANGE_PAGE_MAX_SPEED;
+			speedBasedOnDistance = Math.abs( subContainer.y - ( y + pageIndex * -pageHeight ) ) / pageHeight * config.changePageMaxSpeed;
 		}
 		
 		tween = FlxTween.tween( 
 			subContainer,
 			tweenValues,
 			speedBasedOnDistance,
-			{ ease: CHANGE_PAGE_EASING_TYPE }
+			{ ease: config.changePageEasingType }
 		);
 	}
 	
@@ -215,7 +232,39 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 }
 
 @:enum
-abstract ScrollDirection( String ) {
+abstract HPPScrollDirection( String ) {
 	var HORIZONTAL = "horizontal";
 	var VERTICAL = "vertical";
+}
+
+typedef HPPTouchScrollContainerConfigParams = {
+	@:optional var direction:HPPScrollDirection;
+	@:optional var minimumDragPercentToChangePage:Float;
+	@:optional var maxOverDragPercent:Float;
+	@:optional var changePageMaxSpeed:Float;
+	@:optional var changePageEasingType:Float->Float;
+	@:optional var snapToPages:Bool;
+}
+
+class HPPTouchScrollContainerConfig
+{
+	public var direction:HPPScrollDirection = HPPScrollDirection.HORIZONTAL;
+	
+	public var minimumDragPercentToChangePage:Float = .25;
+	public var maxOverDragPercent:Float = .2;
+	public var changePageMaxSpeed:Float = .6;
+	public var changePageEasingType:Float->Float = FlxEase.quadOut;
+	
+	public var snapToPages:Bool = false;
+	
+	public function new( config:HPPTouchScrollContainerConfigParams = null ) 
+	{
+		if ( config != null )
+		{
+			for ( key in Reflect.fields( config ) )
+			{
+				Reflect.setField( this, key, Reflect.getProperty( config, key ) );
+			}
+		}
+	}
 }

@@ -1,6 +1,7 @@
 package hpp.flixel.ui;
 
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.ui.FlxButton;
 import hpp.flixel.util.HPPAssetManager;
 
 import flixel.FlxG;
@@ -41,6 +42,11 @@ class HPPButton extends FlxUIButton
 		}
 	}
 	
+	override public function update( elapsed:Float ):Void 
+	{
+		super.update( elapsed );
+	}
+	
 	override function updateStatus( input:IFlxInput ):Void
 	{
 		super.updateStatus( input );
@@ -75,9 +81,12 @@ class HPPButton extends FlxUIButton
 		return visible && exists && active && realOnClick != null && getHitbox().containsPoint( new FlxPoint( FlxG.stage.mouseX, FlxG.stage.mouseY ) );
 	}
 	
+	// super.onOverHandler() removed because it had a huge performance problem
 	override private function onOverHandler():Void
 	{
-		super.onOverHandler();
+		inputOver.press();
+		status = FlxButton.HIGHLIGHT;
+		onOver.fire();
 		
 		scale.set( overScale, overScale );
 		
@@ -87,9 +96,13 @@ class HPPButton extends FlxUIButton
 		}
 	}
 	
+	// super.onOutHandler() removed because it had a huge performance problem
 	override private function onOutHandler():Void
 	{
-		super.onOutHandler();
+		inputOver.release();
+		status = FlxButton.NORMAL;
+		onOut.fire();
+		input.release();
 		
 		scale.set( 1, 1 );
 		

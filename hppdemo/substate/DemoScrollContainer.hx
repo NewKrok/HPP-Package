@@ -32,7 +32,7 @@ class DemoScrollContainer extends FlxSubState
 		var maxCol:UInt = 3;
 		var pageSize:Int = 320;
 		
-		scrollHorizontal = new HPPTouchScrollContainer( pageSize, pageSize, ScrollDirection.HORIZONTAL, true );
+		scrollHorizontal = new HPPTouchScrollContainer( pageSize, pageSize, new HPPTouchScrollContainerConfig( { snapToPages: true } ) );
 		scrollHorizontal.x = FlxG.width / 2 - pageSize - 100;
 		scrollHorizontal.y = FlxG.height / 2 - pageSize / 2 + 40;
 		add( scrollHorizontal );
@@ -49,7 +49,7 @@ class DemoScrollContainer extends FlxSubState
 		horizontalText.font = Fonts.DEFAULT_FONT;
 		add( horizontalText );
 		
-		scrollVertical = new HPPTouchScrollContainer( pageSize, pageSize, ScrollDirection.VERTICAL, true );
+		scrollVertical = new HPPTouchScrollContainer( pageSize, pageSize, new HPPTouchScrollContainerConfig( { direction: HPPScrollDirection.VERTICAL, snapToPages: true } ) );
 		scrollVertical.x = FlxG.width / 2 + 100;
 		scrollVertical.y = FlxG.height / 2 - pageSize / 2 + 40;
 		add( scrollVertical );
