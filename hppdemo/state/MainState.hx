@@ -3,10 +3,11 @@ package hppdemo.state;
 import flixel.FlxG;
 import flixel.FlxState;
 import hpp.flixel.util.HPPAssetManager;
-import hppdemo.view.Footer;
-import hppdemo.view.Header;
+import hppdemo.substate.DemoButton;
 import hppdemo.substate.DemoScrollContainer;
 import hppdemo.substate.MainMenu;
+import hppdemo.view.Footer;
+import hppdemo.view.Header;
 
 /**
  * ...
@@ -19,6 +20,7 @@ class MainState extends FlxState
 	
 	var mainMenu:MainMenu;
 	var demoTouchScrollContainer:DemoScrollContainer;
+	var demoButton:DemoButton;
 	
 	override public function create():Void
 	{
@@ -49,6 +51,7 @@ class MainState extends FlxState
 		
 		mainMenu = new MainMenu( changeSubState );
 		demoTouchScrollContainer = new DemoScrollContainer();
+		demoButton = new DemoButton();
 	}
 	
 	function changeSubState( subStateType:SubStateType ):Void
@@ -58,11 +61,11 @@ class MainState extends FlxState
 			case SubStateType.STATE_MAIN_MENU:
 				openSubState( mainMenu );
 				
+			case SubStateType.STATE_HPP_BUTTON:
+				openSubState( demoButton );
+				
 			case SubStateType.STATE_HPP_TOUCH_SCROLL_CONTAINER:
 				openSubState( demoTouchScrollContainer );
-				
-			case SubStateType.STATE_HPP_BUTTON:
-				openSubState( mainMenu );
 		}
 		
 		if ( subStateType == SubStateType.STATE_MAIN_MENU )
@@ -79,6 +82,6 @@ class MainState extends FlxState
 @:enum
 abstract SubStateType( String ) {
   var STATE_MAIN_MENU = "";
-  var STATE_HPP_TOUCH_SCROLL_CONTAINER = "HPPTouchScrollContainer";
-  var STATE_HPP_BUTTON = "HPPButton";
+  var STATE_HPP_BUTTON = "HPPButton demo";
+  var STATE_HPP_TOUCH_SCROLL_CONTAINER = "HPPTouchScrollContainer demo";
 }

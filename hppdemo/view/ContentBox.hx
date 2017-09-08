@@ -2,14 +2,15 @@ package hppdemo.view;
 
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import hpp.flixel.ui.HPPExtendedButton;
+import hpp.flixel.ui.HPPButton;
+import hpp.flixel.ui.HPPExtendableButton;
 import hpp.flixel.util.HPPAssetManager;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */
-class ContentBox extends HPPExtendedButton
+class ContentBox extends HPPExtendableButton
 {
 	var textContent:FlxText;
 	var text:String;
@@ -17,7 +18,7 @@ class ContentBox extends HPPExtendedButton
 
 	public function new( text:String = "", onSelectCallback:ContentBox->Void ) 
 	{
-		super( onClick );
+		super( onClick, "demo_content_box" );
 		
 		this.onSelectCallback = onSelectCallback;
 		this.text = text;
@@ -25,15 +26,13 @@ class ContentBox extends HPPExtendedButton
 		build();
 	}
 	
-	function onClick():Void
+	function onClick( target:HPPButton ):Void
 	{
 		onSelectCallback( this );
 	}
 	
 	function build():Void 
 	{
-		add( HPPAssetManager.getSprite( "demo_content_box" ) );
-		
 		textContent = new FlxText( 0, 0, width, text, 12 );
 		textContent.font = Fonts.DEFAULT_FONT;
 		textContent.alignment = "center";

@@ -10,7 +10,7 @@ import hppdemo.Fonts;
  */
 class MenuButton extends HPPButton
 {
-	public function new( labelText:String, onClick:Void->Void = null ) 
+	public function new( labelText:String, onClick:HPPButton->Void = null ) 
 	{
 		super( labelText, onClick, "menu_button" );
 		

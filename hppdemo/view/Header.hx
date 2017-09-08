@@ -49,7 +49,7 @@ class Header extends FlxSpriteGroup
 		backButton.y = height / 2 - backButton.height / 2;
 	}
 	
-	function backToMainMenu():Void 
+	function backToMainMenu( target:HPPButton ):Void 
 	{
 		mainMenuCallBack( SubStateType.STATE_MAIN_MENU );
 	}

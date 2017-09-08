@@ -23,28 +23,27 @@ class HPPButton extends FlxUIButton
 	public var overScale:Float = 1;
 	public var labelSize( default, set ):Int = 8;
 	
-	var realOnClick:Void->Void;
+	public var onMouseOver:Void->Void;
+	public var onMouseOut:Void->Void;
+	
+	var realOnClick:HPPButton->Void;
 	var mouseDownTime:Float;
 	var mouseDownRect:FlxRect;
 	var cameraRect:FlxRect;
 	
-	public function new( label:String = "", onClick:Void->Void = null, graphicId:String = null )
+	public function new( label:String = "", onClick:HPPButton->Void = null, graphicId:String = null )
 	{
 		super( 0, 0, label, null, false, true );
 		
 		realOnClick = onClick;
 		mouseDownRect = new FlxRect();
 		cameraRect = new FlxRect();
+		moves = false;
 		
 		if ( graphicId != null )
 		{
 			loadGraphic( HPPAssetManager.getGraphic( graphicId ) );
 		}
-	}
-	
-	override public function update( elapsed:Float ):Void 
-	{
-		super.update( elapsed );
 	}
 	
 	override function updateStatus( input:IFlxInput ):Void
@@ -72,7 +71,7 @@ class HPPButton extends FlxUIButton
 			&& mouseDownRect.containsPoint( mousePoint )
 			&& cameraRect.containsPoint( mousePoint )
 		) {
-			realOnClick();
+			realOnClick( this );
 		}
 	}
 	
@@ -94,6 +93,11 @@ class HPPButton extends FlxUIButton
 		{
 			label.scale.set( overScale, overScale );
 		}
+		
+		if ( onMouseOver != null )
+		{
+			onMouseOver();
+		}
 	}
 	
 	// super.onOutHandler() removed because it had a huge performance problem
@@ -109,6 +113,11 @@ class HPPButton extends FlxUIButton
 		if ( label != null )
 		{
 			label.scale.set( 1, 1 );
+		}
+		
+		if ( onMouseOut != null )
+		{
+			onMouseOut();
 		}
 	}
 	

@@ -18,7 +18,7 @@ import flixel.util.FlxSpriteUtil;
  */
 class HPPTouchScrollContainer extends FlxSpriteGroup
 {
-	private static inline var DISABLE_UPDATE_TIME:Float = 200;
+	private static inline var DISABLE_UPDATE_TIME:Float = 100;
 	
 	private static var activeTouchScroll:HPPTouchScrollContainer;
 	
@@ -250,9 +250,9 @@ class HPPTouchScrollContainerConfig
 {
 	public var direction:HPPScrollDirection = HPPScrollDirection.HORIZONTAL;
 	
-	public var minimumDragPercentToChangePage:Float = .25;
-	public var maxOverDragPercent:Float = .2;
-	public var changePageMaxSpeed:Float = .6;
+	public var minimumDragPercentToChangePage:Float = .2;
+	public var maxOverDragPercent:Float = .15;
+	public var changePageMaxSpeed:Float = 1;
 	public var changePageEasingType:Float->Float = FlxEase.quadOut;
 	
 	public var snapToPages:Bool = false;
