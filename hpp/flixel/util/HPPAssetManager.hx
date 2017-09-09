@@ -56,12 +56,12 @@ class HPPAssetManager
 		return sprite;
 	}
 	
-	public static function getMovieClip( assetId:String, antialiasing:Bool = true ):HPPMovieClip
+	public static function getMovieClip( assetId:String, animationPrefix:String = "", antialiasing:Bool = true ):HPPMovieClip
 	{
 		var movieClip:HPPMovieClip = new HPPMovieClip();
 		movieClip.animationPrefix = assetId;
 		
-		var atlas:FlxAtlasFrames = getFlxAtlasFramesByAssetId( movieClip.animationPrefix + "00" );
+		var atlas:FlxAtlasFrames = getFlxAtlasFramesByAssetId( movieClip.animationPrefix + animationPrefix );
 		var frames:FlxFramesCollection = new FlxFramesCollection( null );
 		
 		for ( frame in atlas.frames )
