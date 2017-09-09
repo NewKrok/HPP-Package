@@ -42,7 +42,7 @@ class Header extends FlxSpriteGroup
 		add( title );
 		
 		add( backButton = new HPPButton( "Back", backToMainMenu, "back_button" ) );
-		backButton.overScale = .95;
+		backButton.overScale = .98;
 		backButton.labelSize = 25;
 		backButton.label.font = Fonts.DEFAULT_FONT;
 		backButton.x = 20;

@@ -1,17 +1,17 @@
 package hppdemo.substate;
 
 import flixel.FlxG;
-import flixel.FlxSubState;
 import flixel.text.FlxText;
 import hpp.flixel.ui.HPPButton;
 import hpp.flixel.ui.HPPExtendableButton;
+import hpp.flixel.ui.HPPHUIBox;
 import hppdemo.Fonts;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */ 
-class DemoButton extends FlxSubState
+class DemoButton extends BaseSubState
 {
 	var hppButtonA:HPPButton;
 	var hppButtonB:HPPButton;
@@ -28,34 +28,25 @@ class DemoButton extends FlxSubState
 	
 	function build():Void
 	{
+		setTitle( "Try the improved onClick detection, the new mouse over scale effect and the new HPPExtendableButton." );
+		
 		actionText = new FlxText();
 		actionText.size = 20;
 		actionText.font = Fonts.DEFAULT_FONT;
-		actionText.text = "";
+		actionText.text = "You will see here the click target after click.";
+		actionText.fieldWidth = FlxG.width - 100;
 		actionText.alignment = "center";
-		actionText.y = FlxG.height / 2 - actionText.height - 120;
-		add( actionText );
+		mainContainer.add( actionText );
 		
-		hppButtonA = new HPPButton( "Demo Button", hppButtonClicked, "demo_content_box" );
-		add( hppButtonA );
-		hppButtonA.x = FlxG.stage.width / 2 - hppButtonA.width - 20;
-		hppButtonA.y = actionText.y + actionText.height + 40;
+		var buttonContainer:HPPHUIBox = new HPPHUIBox( 20 );
+		
+		buttonContainer.add( hppButtonA = new HPPButton( "Demo Button", hppButtonClicked, "demo_content_box" ) );
 		hppButtonA.label.font = Fonts.DEFAULT_FONT;
 		hppButtonA.labelSize = 20;
 		hppButtonA.overScale = 1.05;
 		
-		hppButtonB = new HPPButton( "Demo Button", hppButtonClicked, "demo_content_box" );
-		add( hppButtonB );
-		hppButtonB.x = FlxG.stage.width / 2 + 20;
-		hppButtonB.y = actionText.y + actionText.height + 40;
-		hppButtonB.label.font = Fonts.DEFAULT_FONT;
-		hppButtonB.labelSize = 20;
-		hppButtonB.overScale = .95;
-		
-		add( hppExtendableButton = new HPPExtendableButton( hppButtonClicked, "demo_content_box" ) );
+		buttonContainer.add( hppExtendableButton = new HPPExtendableButton( hppButtonClicked, "demo_content_box" ) );
 		hppExtendableButton.overScale = 1.05;
-		hppExtendableButton.x = FlxG.stage.width / 2 - hppExtendableButton.width / 2;
-		hppExtendableButton.y = hppButtonA.y + hppButtonA.height + 20;
 		var textA:FlxText = new FlxText( 0, 0, hppExtendableButton.width, "", 12 );
 		textA.text = "CONTENT #A";
 		textA.font = Fonts.DEFAULT_FONT;
@@ -70,11 +61,14 @@ class DemoButton extends FlxSubState
 		textB.angle = 180;
 		textB.y = hppExtendableButton.height / 2 + 5;
 		hppExtendableButton.add( textB );
+		
+		mainContainer.add( buttonContainer );
+		
+		rePosition();
 	}
 	
 	function hppButtonClicked( target:HPPButton ):Void
 	{
 		actionText.text = target + " clicked";
-		actionText.x = FlxG.stage.width / 2 - actionText.width / 2;
 	}
 }

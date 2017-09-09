@@ -35,12 +35,12 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	var subContainer:FlxSpriteGroup;
 	var subContainerCamera:FlxCamera;
 	var containerRect:FlxRect;
-	
 	var tween:VarTween;
 	var pageIndex:Int = 0;
 	var calculatedMinimumDragPercentToChangePage:Float = 0;
 	var calculatedMaxOverDragPercent:Float = 0;
 	var scrollStartTime:Float = 0;
+	var hasRunningAnimation:Bool;
 	
 	public function new( pageWidth:Int, pageHeight:Int, config:HPPTouchScrollContainerConfig = null ) 
 	{
@@ -75,6 +75,13 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	
 	override public function update( elapsed:Float ):Void 
 	{
+		if ( hasRunningAnimation )
+		{
+			isTouchDragActivated = false;
+			activeTouchScroll = null;
+			return;
+		}
+		
 		containerRect.set( x, y, pageWidth, pageHeight );
 		
 		if ( FlxG.mouse.pressed && ( activeTouchScroll == null || activeTouchScroll == this ) )
@@ -177,6 +184,8 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		
 		disposeTween();
 		
+		hasRunningAnimation = true;
+		
 		var speedBasedOnDistance:Float;
 		var tweenValues:Dynamic;
 		if ( config.direction == HPPScrollDirection.HORIZONTAL )
@@ -194,8 +203,13 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			subContainer,
 			tweenValues,
 			speedBasedOnDistance,
-			{ ease: config.changePageEasingType }
+			{ ease: config.changePageEasingType, onComplete: animationEnded }
 		);
+	}
+	
+	function animationEnded( tween:FlxTween ):Void 
+	{
+		hasRunningAnimation = false;
 	}
 	
 	function disposeTween():Void
@@ -206,6 +220,8 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			tween.destroy();
 			tween = null;
 		}
+		
+		hasRunningAnimation = false;
 	}
 	
 	override function set_x( value:Float ):Float 

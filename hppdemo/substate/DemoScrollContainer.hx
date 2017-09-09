@@ -1,8 +1,10 @@
 package hppdemo.substate;
 
 import flixel.FlxG;
-import flixel.FlxSubState;
+import flixel.FlxSprite;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import hpp.flixel.ui.HPPHUIBox;
 import hpp.flixel.ui.HPPTouchScrollContainer;
 import hppdemo.view.ContentBox;
 import hppdemo.view.ScrollPage;
@@ -11,7 +13,7 @@ import hppdemo.view.ScrollPage;
  * ...
  * @author Krisztian Somoracz
  */ 
-class DemoScrollContainer extends FlxSubState
+class DemoScrollContainer extends BaseSubState
 {
 	var scrollHorizontal:HPPTouchScrollContainer;
 	var horizontalScrollElements:Array<ContentBox>;
@@ -28,12 +30,21 @@ class DemoScrollContainer extends FlxSubState
 	
 	function build():Void
 	{
+		setTitle( "You can drag these contents with mouse or with touch." );
+		
+		var scrollDemoContainers:HPPHUIBox = new HPPHUIBox( 100 );
+		
 		var maxRow:UInt = 3;
 		var maxCol:UInt = 3;
 		var pageSize:Int = 320;
 		
+		var horizontalText:FlxText = new FlxText( 0, 0, pageSize, "Horizontal", 20 );
+		horizontalText.alignment = "center";
+		horizontalText.font = Fonts.DEFAULT_FONT;
+		scrollDemoContainers.add( horizontalText );
+		
 		scrollHorizontal = new HPPTouchScrollContainer( pageSize, pageSize, new HPPTouchScrollContainerConfig( { snapToPages: true } ) );
-		scrollHorizontal.x = FlxG.width / 2 - pageSize - 100;
+		scrollHorizontal.x = FlxG.width / 2 - pageSize - 50;
 		scrollHorizontal.y = FlxG.height / 2 - pageSize / 2 + 40;
 		add( scrollHorizontal );
 		horizontalScrollElements = [];
@@ -44,13 +55,14 @@ class DemoScrollContainer extends FlxSubState
 			
 			scrollHorizontal.add( page );
 		}
-		var horizontalText:FlxText = new FlxText( scrollHorizontal.x, scrollHorizontal.y - 40, pageSize, "Horizontal", 20 );
-		horizontalText.alignment = "center";
-		horizontalText.font = Fonts.DEFAULT_FONT;
-		add( horizontalText );
+		
+		var verticalText:FlxText = new FlxText( 0, 0, pageSize, "Vertical", 20 );
+		verticalText.alignment = "center";
+		verticalText.font = Fonts.DEFAULT_FONT;
+		scrollDemoContainers.add( verticalText );
 		
 		scrollVertical = new HPPTouchScrollContainer( pageSize, pageSize, new HPPTouchScrollContainerConfig( { direction: HPPScrollDirection.VERTICAL, snapToPages: true } ) );
-		scrollVertical.x = FlxG.width / 2 + 100;
+		scrollVertical.x = FlxG.width / 2 + 50;
 		scrollVertical.y = FlxG.height / 2 - pageSize / 2 + 40;
 		add( scrollVertical );
 		verticalScrollElements = [];
@@ -61,10 +73,13 @@ class DemoScrollContainer extends FlxSubState
 			
 			scrollVertical.add( page );
 		}
-		var verticalText:FlxText = new FlxText( scrollVertical.x, scrollVertical.y - 40, pageSize, "Vertical", 20 );
-		verticalText.alignment = "center";
-		verticalText.font = Fonts.DEFAULT_FONT;
-		add( verticalText );
+
+		mainContainer.add( scrollDemoContainers );
+		
+		// At the moment you can not add a scrollcontainer into the HPP layout, so this placeholder is just a hack
+		mainContainer.add( new FlxSprite().makeGraphic( pageSize, pageSize, FlxColor.TRANSPARENT ) );
+		
+		rePosition();
 	}
 	
 	function onHorizontalScrollContentSelect( content:ContentBox ):Void

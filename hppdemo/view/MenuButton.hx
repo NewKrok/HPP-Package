@@ -14,7 +14,7 @@ class MenuButton extends HPPButton
 	{
 		super( labelText, onClick, "menu_button" );
 		
-		overScale = .95;
+		overScale = .98;
 		labelSize = 25;
 		label.font = Fonts.DEFAULT_FONT;
 	}

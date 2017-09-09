@@ -1,19 +1,18 @@
 package hppdemo.substate;
 
-import flixel.FlxG;
-import flixel.FlxSubState;
 import hpp.flixel.ui.HPPButton;
-import hppdemo.view.MenuButton;
 import hppdemo.state.MainState.SubStateType;
+import hppdemo.view.MenuButton;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */
-class MainMenu extends FlxSubState
+class MainMenu extends BaseSubState
 {
-	var touchScrollContainerDemoButton:HPPButton;
+	var layoutDemoButton:HPPButton;
 	var buttonDemoButton:HPPButton;
+	var touchScrollContainerDemoButton:HPPButton;
 	
 	var changeSubStateCallback:SubStateType->Void;
 	
@@ -28,22 +27,27 @@ class MainMenu extends FlxSubState
 	
 	function build():Void 
 	{
-		add( buttonDemoButton = new MenuButton( "HPPButtonDemo", openHPPButtonDemo ) );
-		buttonDemoButton.x = FlxG.width / 2 - buttonDemoButton.width / 2;
-		buttonDemoButton.y = FlxG.height / 2 - buttonDemoButton.height / 2 - 50;
+		setTitle( "Choose a demo" );
 		
-		add( touchScrollContainerDemoButton = new MenuButton( "HPPTouchScrollContainer", openHPPTouchScrollContainerDemo ) );
-		touchScrollContainerDemoButton.x = FlxG.width / 2 - touchScrollContainerDemoButton.width / 2;
-		touchScrollContainerDemoButton.y = FlxG.height / 2 - touchScrollContainerDemoButton.height / 2 + 50;
+		mainContainer.add( layoutDemoButton = new MenuButton( "Layout", openHPPLayoutDemo ) );
+		mainContainer.add( buttonDemoButton = new MenuButton( "Button", openHPPButtonDemo ) );
+		mainContainer.add( touchScrollContainerDemoButton = new MenuButton( "Touch scroll container", openHPPTouchScrollContainerDemo ) );
+		
+		rePosition();
 	}
 	
-	function openHPPTouchScrollContainerDemo( target:HPPButton ):Void
+	function openHPPLayoutDemo( target:HPPButton ):Void
 	{
-		changeSubStateCallback( SubStateType.STATE_HPP_TOUCH_SCROLL_CONTAINER );
+		changeSubStateCallback( SubStateType.STATE_HPP_LAYOUT );
 	}
 	
 	function openHPPButtonDemo( target:HPPButton ):Void
 	{
 		changeSubStateCallback( SubStateType.STATE_HPP_BUTTON );
+	}
+	
+	function openHPPTouchScrollContainerDemo( target:HPPButton ):Void
+	{
+		changeSubStateCallback( SubStateType.STATE_HPP_TOUCH_SCROLL_CONTAINER );
 	}
 }
