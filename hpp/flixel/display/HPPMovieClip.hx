@@ -107,4 +107,14 @@ class HPPMovieClip extends FlxSprite
 			}
 		}
 	}
+	
+	override function get_width():Float 
+	{
+		return cast frameWidth;
+	}
+	
+	override function get_height():Float 
+	{
+		return cast frameHeight;
+	}
 }

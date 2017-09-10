@@ -42,13 +42,16 @@ class HPPUIBox extends FlxSpriteGroup
 	
 	function orderElements():Void
 	{
-		if( orderType == HPPUIBoxOrder.HORIZONTAL )
+		if ( canOrder() )
 		{
-			orderByHorizontal();
-		}
-		else if( orderType == HPPUIBoxOrder.VERTICAL )
-		{
-			orderByVertical();
+			if( orderType == HPPUIBoxOrder.HORIZONTAL )
+			{
+				orderByHorizontal();
+			}
+			else if( orderType == HPPUIBoxOrder.VERTICAL )
+			{
+				orderByVertical();
+			}
 		}
 	}
 	
