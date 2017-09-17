@@ -252,6 +252,16 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		
 		return super.set_y( value );
 	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		if ( activeTouchScroll == this )
+		{
+			activeTouchScroll = null;
+		}
+	}
 }
 
 @:enum
