@@ -148,12 +148,12 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 					moveToPage( pageIndex );
 				}
 			}
-			
 			activeTouchScroll = null;
 		}
 		else
 		{
 			isTouchDragActivated = false;
+			hasRunningAnimation = false;
 		}
 		
 		if ( Date.now().getTime() - scrollStartTime < DISABLE_UPDATE_TIME )
@@ -199,12 +199,19 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			speedBasedOnDistance = Math.abs( subContainer.y - ( y + pageIndex * -pageHeight ) ) / pageHeight * config.changePageMaxSpeed;
 		}
 		
-		tween = FlxTween.tween( 
-			subContainer,
-			tweenValues,
-			speedBasedOnDistance,
-			{ ease: config.changePageEasingType, onComplete: animationEnded }
-		);
+		if ( speedBasedOnDistance > 0 )
+		{
+			tween = FlxTween.tween( 
+				subContainer,
+				tweenValues,
+				speedBasedOnDistance,
+				{ ease: config.changePageEasingType, onComplete: animationEnded }
+			);
+		}
+		else
+		{
+			hasRunningAnimation = false;
+		}
 	}
 	
 	function animationEnded( tween:FlxTween ):Void 
