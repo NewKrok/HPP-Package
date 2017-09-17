@@ -18,7 +18,7 @@ import flixel.math.FlxRect;
 class HPPButton extends FlxUIButton
 {
 	public static inline var CLICK_MAX_TIME:Float = 1000;
-	public static inline var MOUSE_CLICK_RECT_OFFSET:Float = 10;
+	public static inline var MOUSE_CLICK_RECT_OFFSET:Float = 15;
 	
 	public var overScale:Float = 1;
 	public var labelSize( default, set ):Int = 8;
@@ -53,8 +53,8 @@ class HPPButton extends FlxUIButton
 		if (input.justPressed)
 		{
 			mouseDownTime = Date.now().getTime();
-			mouseDownRect.set( 	FlxG.stage.mouseX - MOUSE_CLICK_RECT_OFFSET,
-								FlxG.stage.mouseY - MOUSE_CLICK_RECT_OFFSET,
+			mouseDownRect.set( 	FlxG.stage.mouseX - MOUSE_CLICK_RECT_OFFSET / 2,
+								FlxG.stage.mouseY - MOUSE_CLICK_RECT_OFFSET / 2,
 								MOUSE_CLICK_RECT_OFFSET,
 								MOUSE_CLICK_RECT_OFFSET );
 		}
@@ -80,13 +80,8 @@ class HPPButton extends FlxUIButton
 		return visible && exists && active && realOnClick != null && getHitbox().containsPoint( new FlxPoint( FlxG.stage.mouseX, FlxG.stage.mouseY ) );
 	}
 	
-	// super.onOverHandler() removed because it had a huge performance problem
 	override private function onOverHandler():Void
 	{
-		inputOver.press();
-		status = FlxButton.HIGHLIGHT;
-		onOver.fire();
-		
 		scale.set( overScale, overScale );
 		
 		if ( label != null )
@@ -98,16 +93,12 @@ class HPPButton extends FlxUIButton
 		{
 			onMouseOver();
 		}
+		
+		super.onOverHandler();
 	}
 	
-	// super.onOutHandler() removed because it had a huge performance problem
 	override private function onOutHandler():Void
 	{
-		inputOver.release();
-		status = FlxButton.NORMAL;
-		onOut.fire();
-		input.release();
-		
 		scale.set( 1, 1 );
 		
 		if ( label != null )
@@ -119,6 +110,8 @@ class HPPButton extends FlxUIButton
 		{
 			onMouseOut();
 		}
+		
+		super.onOutHandler();
 	}
 	
 	// Fix for: When you change the size on the label sometimes it doesn't update the text position
