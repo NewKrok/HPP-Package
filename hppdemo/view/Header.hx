@@ -41,7 +41,7 @@ class Header extends FlxSpriteGroup
 		title.y = height / 2 - title.textField.textHeight / 2;
 		add( title );
 		
-		add( backButton = new HPPButton( "Back", backToMainMenu, "back_button" ) );
+		add( backButton = new HPPButton( "Back", backToMainMenu, "small_button" ) );
 		backButton.overScale = .98;
 		backButton.labelSize = 25;
 		backButton.label.font = Fonts.DEFAULT_FONT;

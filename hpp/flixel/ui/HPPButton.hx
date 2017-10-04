@@ -39,6 +39,7 @@ class HPPButton extends FlxUIButton
 		mouseDownRect = new FlxRect();
 		cameraRect = new FlxRect();
 		moves = false;
+		labelOffsets[2].y = 0;
 		
 		if ( graphicId != null )
 		{

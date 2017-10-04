@@ -1,10 +1,13 @@
 package hppdemo.substate;
 
 import flixel.FlxG;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
 import hpp.flixel.ui.HPPButton;
 import hpp.flixel.ui.HPPExtendableButton;
 import hpp.flixel.ui.HPPHUIBox;
+import hpp.flixel.ui.HPPToggleButton;
 import hppdemo.Fonts;
 
 /**
@@ -13,9 +16,9 @@ import hppdemo.Fonts;
  */ 
 class DemoButton extends BaseSubState
 {
-	var hppButtonA:HPPButton;
-	var hppButtonB:HPPButton;
+	var hppButton:HPPButton;
 	var hppExtendableButton:HPPExtendableButton;
+	var hppToggleButton:HPPToggleButton;
 	
 	var actionText:FlxText;
 	
@@ -28,7 +31,9 @@ class DemoButton extends BaseSubState
 	
 	function build():Void
 	{
-		setTitle( "Try the improved onClick detection, the new mouse over scale effect and the new HPPExtendableButton." );
+		mainContainer.gap = 40;
+		
+		setTitle( "Try the improved onClick detection, the new mouse over scale effect, the new HPPExtendableButton and the new HPPToggleButton." );
 		
 		actionText = new FlxText();
 		actionText.size = 20;
@@ -40,10 +45,10 @@ class DemoButton extends BaseSubState
 		
 		var buttonContainer:HPPHUIBox = new HPPHUIBox( 20 );
 		
-		buttonContainer.add( hppButtonA = new HPPButton( "Demo Button", hppButtonClicked, "demo_content_box" ) );
-		hppButtonA.label.font = Fonts.DEFAULT_FONT;
-		hppButtonA.labelSize = 20;
-		hppButtonA.overScale = 1.05;
+		buttonContainer.add( hppButton = new HPPButton( "Demo Button", hppButtonClicked, "demo_content_box" ) );
+		hppButton.label.font = Fonts.DEFAULT_FONT;
+		hppButton.labelSize = 20;
+		hppButton.overScale = 1.05;
 		
 		buttonContainer.add( hppExtendableButton = new HPPExtendableButton( hppButtonClicked, "demo_content_box" ) );
 		hppExtendableButton.overScale = 1.05;
@@ -62,6 +67,19 @@ class DemoButton extends BaseSubState
 		textB.y = hppExtendableButton.height / 2 + 5;
 		hppExtendableButton.add( textB );
 		
+		buttonContainer.add( hppToggleButton = new HPPToggleButton( "OFF", "ON", hppToggleButtonClicked, "small_button_dark", "small_button" ) );
+		hppToggleButton.font = Fonts.DEFAULT_FONT;
+		hppToggleButton.labelSize = 20;
+		hppToggleButton.overScale = 1.05;
+		hppToggleButton.normalLabel.alignment = "right";
+		hppToggleButton.normalLabel.offset.x = 10;
+		hppToggleButton.normalLabel.color = FlxColor.WHITE;
+		hppToggleButton.selectedLabel.alignment = "right";
+		hppToggleButton.selectedLabel.offset.x = 10;
+		hppToggleButton.selectedLabel.color = FlxColor.YELLOW;
+		hppToggleButton.setNormalIcon( "icon_dark", 10, cast hppToggleButton.height / 2 - 27 / 2 );
+		hppToggleButton.setSelectedIcon( "icon_normal", 10, cast hppToggleButton.height / 2 - 27 / 2 );
+		
 		mainContainer.add( buttonContainer );
 		
 		rePosition();
@@ -70,5 +88,10 @@ class DemoButton extends BaseSubState
 	function hppButtonClicked( target:HPPButton ):Void
 	{
 		actionText.text = target + " clicked";
+	}
+	
+	function hppToggleButtonClicked( target:HPPToggleButton ):Void
+	{
+		actionText.text = target + " clicked (isSelected:" + target.isSelected + ")";
 	}
 }
