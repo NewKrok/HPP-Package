@@ -37,7 +37,7 @@ class HPPToggleButton extends FlxSpriteGroup
 	
 	function baseOnClick( target:HPPButton ):Void
 	{
-		isSelected = !isSelected;
+		toggle();
 		
 		onClick( this );
 	}
@@ -49,6 +49,11 @@ class HPPToggleButton extends FlxSpriteGroup
 		updateView();
 		
 		return isSelected;
+	}
+	
+	public function toggle():Bool
+	{
+		return isSelected = !isSelected;
 	}
 	
 	function updateView():Void
