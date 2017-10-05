@@ -122,7 +122,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			
 			if ( config.direction == HPPScrollDirection.HORIZONTAL )
 			{
-				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.x > subContainer.x && pageIndex < pageCount )
+				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.x > subContainer.x && pageIndex < pageCount - 1 )
 				{
 					moveToPage( pageIndex + 1 );
 				}
@@ -137,7 +137,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			}
 			else
 			{
-				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.y > subContainer.y && pageIndex < pageCount )
+				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.y > subContainer.y && pageIndex < pageCount - 1 )
 				{
 					moveToPage( pageIndex + 1 );
 				}
@@ -272,7 +272,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	
 	function set_currentPage( value:UInt ):UInt 
 	{
-		var tempPageIndex = value > pageCount ? pageCount : value;
+		var tempPageIndex = value >= pageCount ? pageCount - 1 : value;
 		
 		if ( tempPageIndex != pageIndex )
 		{
@@ -287,11 +287,11 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	{
 		if ( config.direction == HPPScrollDirection.HORIZONTAL )
 		{
-			return Math.ceil( subContainer.width / pageWidth ) - 1;
+			return Math.ceil( subContainer.width / pageWidth );
 		}
 		else
 		{
-			return Math.ceil( subContainer.height / pageHeight ) - 1;
+			return Math.ceil( subContainer.height / pageHeight );
 		}
 		
 	}
