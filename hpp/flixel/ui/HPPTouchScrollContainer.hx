@@ -24,6 +24,8 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	
 	public var pageHeight:Int;
 	public var pageWidth:Int;
+	public var currentPage( get, set ):UInt;
+	public var pageCount( get, null ):UInt;
 	
 	var config:HPPTouchScrollContainerConfig;
 	
@@ -120,7 +122,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			
 			if ( config.direction == HPPScrollDirection.HORIZONTAL )
 			{
-				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.x > subContainer.x && pageIndex < Math.ceil( subContainer.width / pageWidth ) - 1 )
+				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.x > subContainer.x && pageIndex < pageCount )
 				{
 					moveToPage( pageIndex + 1 );
 				}
@@ -135,7 +137,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			}
 			else
 			{
-				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.y > subContainer.y && pageIndex < Math.ceil( subContainer.height / pageHeight ) - 1 )
+				if ( dragDistance > calculatedMinimumDragPercentToChangePage && containerTouchStartPosition.y > subContainer.y && pageIndex < pageCount )
 				{
 					moveToPage( pageIndex + 1 );
 				}
@@ -261,6 +263,29 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		{
 			activeTouchScroll = null;
 		}
+	}
+	
+	function get_currentPage():UInt 
+	{
+		return pageIndex;
+	}
+	
+	function set_currentPage( value:UInt ):UInt 
+	{
+		var tempPageIndex = value > pageCount ? pageCount : value;
+		
+		if ( tempPageIndex != pageIndex )
+		{
+			pageIndex = tempPageIndex;
+			moveToPage( pageIndex )
+		}
+		
+		return pageIndex;
+	}
+	
+	function get_pageCount():UInt 
+	{
+		return Math.ceil( subContainer.height / pageHeight ) - 1;
 	}
 }
 
