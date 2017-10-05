@@ -277,7 +277,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		if ( tempPageIndex != pageIndex )
 		{
 			pageIndex = tempPageIndex;
-			moveToPage( pageIndex )
+			moveToPage( pageIndex );
 		}
 		
 		return pageIndex;
@@ -285,7 +285,15 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	
 	function get_pageCount():UInt 
 	{
-		return Math.ceil( subContainer.height / pageHeight ) - 1;
+		if ( config.direction == HPPScrollDirection.HORIZONTAL )
+		{
+			return Math.ceil( subContainer.width / pageWidth ) - 1;
+		}
+		else
+		{
+			return Math.ceil( subContainer.height / pageHeight ) - 1;
+		}
+		
 	}
 }
 
