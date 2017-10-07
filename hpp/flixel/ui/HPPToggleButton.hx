@@ -32,6 +32,8 @@ class HPPToggleButton extends FlxSpriteGroup
 		normalStateButton = new HPPButton( labelNormal, baseOnClick, graphicIdNormal );
 		selectedStateButton = new HPPButton( labelSelected, baseOnClick, graphicIdSelected == null ? graphicIdNormal : graphicIdSelected );
 		
+		scrollFactor.set();
+		
 		isSelected = false;
 	}
 	
@@ -44,9 +46,11 @@ class HPPToggleButton extends FlxSpriteGroup
 	
 	function set_isSelected( value:Bool ):Bool 
 	{
-		isSelected = value;
-		
-		updateView();
+		if ( isSelected != value )
+		{
+			isSelected = value;
+			updateView();
+		}
 		
 		return isSelected;
 	}
@@ -61,11 +65,13 @@ class HPPToggleButton extends FlxSpriteGroup
 		if ( isSelected )
 		{
 			add( selectedStateButton );
+			selectedStateButton.alpha = alpha;
 			remove( normalStateButton );
 		}
 		else
 		{
 			add( normalStateButton );
+			normalStateButton.alpha = alpha;
 			remove( selectedStateButton );
 		}
 	}

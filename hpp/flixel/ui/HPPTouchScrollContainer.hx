@@ -11,12 +11,13 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.misc.VarTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
+import hpp.ui.IPageable;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */
-class HPPTouchScrollContainer extends FlxSpriteGroup
+class HPPTouchScrollContainer extends FlxSpriteGroup implements IPageable
 {
 	private static inline var DISABLE_UPDATE_TIME:Float = 100;
 	
@@ -43,6 +44,8 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	var calculatedMaxOverDragPercent:Float = 0;
 	var scrollStartTime:Float = 0;
 	var hasRunningAnimation:Bool;
+	
+	var onPageChangeCallback:Void->Void;
 	
 	public function new( pageWidth:Int, pageHeight:Int, config:HPPTouchScrollContainerConfig = null ) 
 	{
@@ -182,7 +185,11 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 	
 	function moveToPage( pageIndex:Int ) 
 	{
+		var pageStep:UInt = cast Math.abs( this.pageIndex - pageIndex );
+		if ( pageStep == 0 ) pageStep = 1;
+		
 		this.pageIndex = pageIndex;
+		if ( onPageChangeCallback != null ) onPageChangeCallback();
 		
 		disposeTween();
 		
@@ -190,15 +197,16 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		
 		var speedBasedOnDistance:Float;
 		var tweenValues:Dynamic;
+		
 		if ( config.direction == HPPScrollDirection.HORIZONTAL )
 		{
 			tweenValues = { x: x + pageIndex * -pageWidth };
-			speedBasedOnDistance = Math.abs( subContainer.x - ( x + pageIndex * -pageWidth ) ) / pageWidth * config.changePageMaxSpeed;
+			speedBasedOnDistance = Math.abs( subContainer.x - ( x + pageIndex * -pageWidth ) ) / pageWidth * ( config.changePageMaxSpeed / pageStep );
 		}
 		else
 		{
 			tweenValues = { y: y + pageIndex * -pageHeight };
-			speedBasedOnDistance = Math.abs( subContainer.y - ( y + pageIndex * -pageHeight ) ) / pageHeight * config.changePageMaxSpeed;
+			speedBasedOnDistance = Math.abs( subContainer.y - ( y + pageIndex * -pageHeight ) ) / pageHeight * ( config.changePageMaxSpeed / pageStep );
 		}
 		
 		if ( speedBasedOnDistance > 0 )
@@ -276,8 +284,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 		
 		if ( tempPageIndex != pageIndex )
 		{
-			pageIndex = tempPageIndex;
-			moveToPage( pageIndex );
+			moveToPage( tempPageIndex );
 		}
 		
 		return pageIndex;
@@ -294,6 +301,11 @@ class HPPTouchScrollContainer extends FlxSpriteGroup
 			return Math.ceil( subContainer.height / pageHeight );
 		}
 		
+	}
+	
+	public function onPageChange( callback:Void->Void ):Void
+	{
+		onPageChangeCallback = callback;
 	}
 }
 

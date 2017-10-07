@@ -1,4 +1,4 @@
-package hpp.flixel.util;
+package hpp.util;
 
 import js.RegExp;
 
