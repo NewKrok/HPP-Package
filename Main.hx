@@ -1,6 +1,6 @@
 package;
 
-import flixel.FlxGame;
+import hpp.flixel.system.HPPFlxMain;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 
@@ -12,7 +12,7 @@ class Main extends Sprite
 	{
 		super();
 		
-		addChild( new FlxGame( 0, 0, MainState ) );
+		addChild( new HPPFlxMain( 0, 0, MainState ) );
 		
 		addChild( new FPS( stage.stageWidth - 75, stage.stageHeight - 50, 0xffffff ) );
 	}

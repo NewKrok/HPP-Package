@@ -45,7 +45,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup implements IPageable
 	var scrollStartTime:Float = 0;
 	var hasRunningAnimation:Bool;
 	
-	var onPageChangeCallback:Void->Void;
+	var onPageChangeCallback:Array<Void->Void>;
 	
 	public function new( pageWidth:Int, pageHeight:Int, config:HPPTouchScrollContainerConfig = null ) 
 	{
@@ -54,6 +54,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup implements IPageable
 		this.pageWidth = pageWidth;
 		this.pageHeight = pageHeight;
 		this.config = config == null ? new HPPTouchScrollContainerConfig() : config;
+		onPageChangeCallback = [];
 		
 		calculatedMinimumDragPercentToChangePage = ( this.config.direction == HPPScrollDirection.HORIZONTAL ? pageWidth : pageHeight ) * this.config.minimumDragPercentToChangePage;
 		calculatedMaxOverDragPercent = ( this.config.direction == HPPScrollDirection.HORIZONTAL ? pageWidth : pageHeight ) * this.config.maxOverDragPercent;
@@ -189,7 +190,7 @@ class HPPTouchScrollContainer extends FlxSpriteGroup implements IPageable
 		if ( pageStep == 0 ) pageStep = 1;
 		
 		this.pageIndex = pageIndex;
-		if ( onPageChangeCallback != null ) onPageChangeCallback();
+		for ( callback in onPageChangeCallback ) callback();
 		
 		disposeTween();
 		
@@ -263,16 +264,6 @@ class HPPTouchScrollContainer extends FlxSpriteGroup implements IPageable
 		return super.set_y( value );
 	}
 	
-	override public function destroy():Void 
-	{
-		super.destroy();
-		
-		if ( activeTouchScroll == this )
-		{
-			activeTouchScroll = null;
-		}
-	}
-	
 	function get_currentPage():UInt 
 	{
 		return pageIndex;
@@ -305,7 +296,19 @@ class HPPTouchScrollContainer extends FlxSpriteGroup implements IPageable
 	
 	public function onPageChange( callback:Void->Void ):Void
 	{
-		onPageChangeCallback = callback;
+		onPageChangeCallback.push( callback );
+	}
+	
+	override public function destroy():Void 
+	{
+		onPageChangeCallback = null;
+		
+		super.destroy();
+		
+		if ( activeTouchScroll == this )
+		{
+			activeTouchScroll = null;
+		}
 	}
 }
 

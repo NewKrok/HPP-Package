@@ -4,7 +4,7 @@
 
 	<app title="HPP-Demo" file="hppdemo" main="Main" version="0.0.1" company="Flash++" />
 
-	<app preloader="flixel.system.FlxPreloader" />
+	<app preloader="hpp.flixel.system.HPPPreloader" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
