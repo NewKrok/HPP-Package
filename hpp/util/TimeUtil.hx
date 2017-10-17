@@ -6,7 +6,7 @@ import js.RegExp;
  * ...
  * @author Krisztian Somoracz
  */
-class HPPTimeUtil 
+class TimeUtil 
 {
 	public static inline var TIME_FORMAT_HH_MM_SS_MS:String = 'hh:mm:ss.ms';
 	public static inline var TIME_FORMAT_HH_MM_SS:String = 'hh:mm:ss';
@@ -14,7 +14,7 @@ class HPPTimeUtil
 	public static inline var TIME_FORMAT_MM_SS_MS:String = 'mm:ss.ms';
 	public static inline var TIME_FORMAT_MM_SS:String = 'mm:ss';
 
-	public static function timeStampToFormattedTime( timeStamp:Float, timeFormat:String = HPPTimeUtil.TIME_FORMAT_HH_MM_SS ):String
+	public static function timeStampToFormattedTime( timeStamp:Float, timeFormat:String = TimeUtil.TIME_FORMAT_HH_MM_SS ):String
 	{
 		var showHour:Bool = timeFormat.indexOf( 'hh' ) != -1;
 		var showMinute:Bool = timeFormat.indexOf( 'mm' ) != -1;
@@ -24,7 +24,7 @@ class HPPTimeUtil
 		var hour:String = "";
 		if( showHour )
 		{
-			hour = Std.string( HPPTimeUtil.getHourFromTimeStamp( timeStamp ) );
+			hour = Std.string( TimeUtil.getHourFromTimeStamp( timeStamp ) );
 			if( hour.length == 1 )
 			{
 				hour = '0' + hour;
@@ -34,7 +34,7 @@ class HPPTimeUtil
 		var minute:String = "";
 		if( showMinute )
 		{
-			minute = Std.string( HPPTimeUtil.getMinuteFromTimeStamp( timeStamp ) );
+			minute = Std.string( TimeUtil.getMinuteFromTimeStamp( timeStamp ) );
 			if( minute.length == 1 )
 			{
 				minute = '0' + minute;
@@ -44,7 +44,7 @@ class HPPTimeUtil
 		var second:String = "";
 		if( showSecond )
 		{
-			second = Std.string( HPPTimeUtil.getSecondFromTimeStamp( timeStamp ) );
+			second = Std.string( TimeUtil.getSecondFromTimeStamp( timeStamp ) );
 			if( second.length == 1 )
 			{
 				second = '0' + second;
@@ -54,7 +54,7 @@ class HPPTimeUtil
 		var millisecond:String = "";
 		if( showMilliSecond )
 		{
-			millisecond = Std.string( HPPTimeUtil.getMilliSecondFromTimeStamp( timeStamp ) );
+			millisecond = Std.string( TimeUtil.getMilliSecondFromTimeStamp( timeStamp ) );
 			if( millisecond.length == 1 )
 			{
 				millisecond = '00' + millisecond;

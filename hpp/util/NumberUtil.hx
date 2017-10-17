@@ -4,7 +4,7 @@ package hpp.util;
  * ...
  * @author Krisztian Somoracz
  */
-class HPPNumberUtil 
+class NumberUtil 
 {
 	public static function formatNumber( number:Float, spacer:String = " " ):String
 	{

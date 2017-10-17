@@ -1,6 +1,7 @@
 package;
 
 import hpp.flixel.system.HPPFlxMain;
+import hpp.openfl.debug.DebugConsole;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 
@@ -12,8 +13,10 @@ class Main extends Sprite
 	{
 		super();
 		
-		addChild( new HPPFlxMain( 0, 0, MainState ) );
+		var console:DebugConsole = new DebugConsole();
 		
-		addChild( new FPS( stage.stageWidth - 75, stage.stageHeight - 50, 0xffffff ) );
+		addChild(new HPPFlxMain(0, 0, MainState));
+		addChild(console);
+		addChild(new FPS( stage.stageWidth - 75, stage.stageHeight - 50, 0xffffff));
 	}
 }
