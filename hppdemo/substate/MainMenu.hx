@@ -4,6 +4,7 @@ import flixel.text.FlxText;
 import hpp.flixel.ui.HPPButton;
 import hpp.openfl.debug.DebugConsole;
 import hpp.util.DeviceData;
+import hpp.util.JsFullScreenUtil;
 import hppdemo.state.MainState.SubStateType;
 import hppdemo.view.MenuButton;
 
@@ -16,6 +17,7 @@ class MainMenu extends BaseSubState
 	var layoutDemoButton:HPPButton;
 	var buttonDemoButton:HPPButton;
 	var touchScrollContainerDemoButton:HPPButton;
+	var fullScreenDemoButton:HPPButton;
 	var debugConsoleDemoButton:HPPButton;
 	
 	var changeSubStateCallback:SubStateType->Void;
@@ -36,6 +38,7 @@ class MainMenu extends BaseSubState
 		mainContainer.add(layoutDemoButton = new MenuButton("Layout", openHPPLayoutDemo));
 		mainContainer.add(buttonDemoButton = new MenuButton("Button", openHPPButtonDemo));
 		mainContainer.add(touchScrollContainerDemoButton = new MenuButton("Touch scroll container", openHPPTouchScrollContainerDemo));
+		mainContainer.add(fullScreenDemoButton = new MenuButton("Toggle full screen", function (_) { JsFullScreenUtil.toggleFullScreen(); } ));
 		mainContainer.add(debugConsoleDemoButton = new MenuButton("Show debug console", openDebugConsole));
 		
 		var deviceInfo:FlxText = new FlxText(0, 0, 300, "Your device is: " + (DeviceData.isMobile() ? "MOBILE" : "DESKTOP"), 14);
