@@ -4,7 +4,6 @@ import flixel.group.FlxSpriteGroup;
 import hpp.flixel.ui.HPPHUIBox;
 import hpp.flixel.ui.HPPToggleButton;
 import hpp.flixel.ui.HPPTouchScrollContainer;
-import hpp.flixel.ui.HPPVUIBox;
 import hpp.ui.IPageable;
 
 /**

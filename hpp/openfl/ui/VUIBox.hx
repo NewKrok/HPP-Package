@@ -1,25 +1,26 @@
-package hpp.flixel.ui;
+package hpp.openfl.ui;
 
-import hpp.flixel.ui.HPPUIBox;
+import hpp.openfl.ui.UIBox;
 import hpp.ui.HAlign;
 import hpp.ui.OrderType;
+import openfl.display.DisplayObject;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */
-class HPPVUIBox extends HPPUIBox
+class VUIBox extends UIBox
 {
-	var horizontalAlign(default, set):HAlign;
+	var horizontalAlign( default, set ):HAlign;
 	
-	public function new(gap:Float = 0, ?horizontalAlign:HAlign) 
+	public function new( gap:Float = 0, ?horizontalAlign:HAlign ) 
 	{
 		this.horizontalAlign = horizontalAlign == null ? HAlign.CENTER : horizontalAlign;
 		
-		super(gap, OrderType.VERTICAL);
+		super( gap, OrderType.VERTICAL );
 	}
 	
-	function set_horizontalAlign(value:HAlign):HAlign 
+	function set_horizontalAlign( value:HAlign ):HAlign 
 	{
 		horizontalAlign = value;
 		
@@ -30,11 +31,11 @@ class HPPVUIBox extends HPPUIBox
 	
 	override function orderByVertical():Void
 	{
-		if (canOrder())
+		if ( canOrder() )
 		{
 			super.orderByVertical();
 			
-			switch(horizontalAlign)
+			switch( horizontalAlign )
 			{
 				case HAlign.LEFT:
 					setHorizontalAlignLeft();
@@ -50,24 +51,26 @@ class HPPVUIBox extends HPPUIBox
 		
 	function setHorizontalAlignLeft():Void
 	{
-		for(child in group)
+		for (i in 0...numChildren)
 		{
-			child.x = x;
+			getChildAt(i).x = 0;
 		}
 	}
 	
 	function setHorizontalAlignCenter():Void
 	{
-		for(child in group)
+		for (i in 0...numChildren)
 		{
+			var child:DisplayObject = getChildAt(i);
 			child.x = x + width / 2 - child.width / 2;
 		}
 	}
 	
 	function setHorizontalAlignRight():Void
 	{
-		for(child in group)
+		for (i in 0...numChildren)
 		{
+			var child:DisplayObject = getChildAt(i);
 			child.x = x + width - child.width;
 		}
 	}

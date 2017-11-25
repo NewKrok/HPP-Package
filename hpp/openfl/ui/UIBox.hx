@@ -1,14 +1,14 @@
-package hpp.flixel.ui;
+package hpp.openfl.ui;
 
-import flixel.FlxSprite;
-import flixel.group.FlxSpriteGroup;
 import hpp.ui.OrderType;
+import openfl.display.DisplayObject;
+import openfl.display.DisplayObjectContainer;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */
-class HPPUIBox extends FlxSpriteGroup
+class UIBox extends DisplayObjectContainer
 {
 	public var gap(default, set):Float;
 	public var orderType(default, set):OrderType;
@@ -32,9 +32,36 @@ class HPPUIBox extends FlxSpriteGroup
 		orderElements();
 	}
 	
-	override public function add(child:FlxSprite):FlxSprite
+	override public function addChild(child:DisplayObject):DisplayObject 
 	{
-		super.add(child);
+		super.addChild(child);
+		
+		orderElements();
+		
+		return child;
+	}
+	
+	override public function addChildAt(child:DisplayObject, index:Int):DisplayObject 
+	{
+		super.addChildAt(child, index);
+		
+		orderElements();
+		
+		return child;
+	}
+	
+	override public function removeChild(child:DisplayObject):DisplayObject 
+	{
+		super.removeChild(child);
+		
+		orderElements();
+		
+		return child;
+	}
+	
+	override public function removeChildAt(index:Int):DisplayObject 
+	{
+		var child:DisplayObject = super.removeChildAt(index);
 		
 		orderElements();
 		
@@ -62,8 +89,9 @@ class HPPUIBox extends FlxSpriteGroup
 		{
 			var nextChildPosition:Float = 0;
 			
-			for(child in group)
+			for(i in 0...numChildren)
 			{
+				var child:DisplayObject = getChildAt(i);
 				child.x = x + nextChildPosition;
 				nextChildPosition += child.width + gap;
 			}
@@ -76,8 +104,9 @@ class HPPUIBox extends FlxSpriteGroup
 		{
 			var nextChildPosition:Float = 0;
 			
-			for(child in group)
+			for(i in 0...numChildren)
 			{
+				var child:DisplayObject = getChildAt(i);
 				child.y = y + nextChildPosition;
 				nextChildPosition += child.height + gap;
 			}
@@ -86,7 +115,7 @@ class HPPUIBox extends FlxSpriteGroup
 	
 	function canOrder():Bool
 	{
-		return isInitProcessEnded && group != null && group.members.length > 0;
+		return isInitProcessEnded;
 	}
 	
 	function set_gap(value:Float):Float 
@@ -98,7 +127,7 @@ class HPPUIBox extends FlxSpriteGroup
 		return gap;
 	}
 	
-	function set_orderType(value:OrderType):OrderType 
+	function set_orderType(value:OrderType):OrderType
 	{
 		orderType = value;
 		

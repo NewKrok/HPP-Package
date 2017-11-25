@@ -1,14 +1,14 @@
-package hpp.flixel.ui;
+package hpp.openfl.ui;
 
-import hpp.flixel.ui.HPPUIBox;
 import hpp.ui.OrderType;
 import hpp.ui.VAlign;
+import openfl.display.DisplayObject;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */
-class HPPHUIBox extends HPPUIBox
+class HUIBox extends UIBox
 {
 	var verticalAlign(default, set):VAlign;
 	
@@ -50,24 +50,26 @@ class HPPHUIBox extends HPPUIBox
 		
 	function setVerticalAlignTop():Void
 	{
-		for(child in group)
+		for (i in 0...numChildren)
 		{
-			child.y = y;
+			getChildAt(i).y = 0;
 		}
 	}
 	
 	function setVerticalAlignMiddle():Void
 	{
-		for(child in group)
+		for (i in 0...numChildren)
 		{
+			var child:DisplayObject = getChildAt(i);
 			child.y = y + height / 2 - child.height / 2;
 		}
 	}
 	
 	function setVerticalAlignBottom():Void
 	{
-		for(child in group)
+		for (i in 0...numChildren)
 		{
+			var child:DisplayObject = getChildAt(i);
 			child.y = y + height - child.height;
 		}
 	}
