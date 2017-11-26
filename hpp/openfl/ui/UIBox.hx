@@ -2,13 +2,13 @@ package hpp.openfl.ui;
 
 import hpp.ui.OrderType;
 import openfl.display.DisplayObject;
-import openfl.display.DisplayObjectContainer;
+import openfl.display.Sprite;
 
 /**
  * ...
  * @author Krisztian Somoracz
  */
-class UIBox extends DisplayObjectContainer
+class UIBox extends Sprite
 {
 	public var gap(default, set):Float;
 	public var orderType(default, set):OrderType;
