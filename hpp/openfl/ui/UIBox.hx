@@ -92,7 +92,7 @@ class UIBox extends DisplayObjectContainer
 			for(i in 0...numChildren)
 			{
 				var child:DisplayObject = getChildAt(i);
-				child.x = x + nextChildPosition;
+				child.x = nextChildPosition;
 				nextChildPosition += child.width + gap;
 			}
 		}
@@ -107,7 +107,7 @@ class UIBox extends DisplayObjectContainer
 			for(i in 0...numChildren)
 			{
 				var child:DisplayObject = getChildAt(i);
-				child.y = y + nextChildPosition;
+				child.y = nextChildPosition;
 				nextChildPosition += child.height + gap;
 			}
 		}

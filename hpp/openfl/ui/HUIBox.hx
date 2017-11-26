@@ -34,16 +34,16 @@ class HUIBox extends UIBox
 		{
 			super.orderByHorizontal();
 			
+			setVerticalAlignTop();
 			switch(verticalAlign)
 			{
-				case VAlign.TOP:
-					setVerticalAlignTop();
-					
 				case VAlign.MIDDLE:
 					setVerticalAlignMiddle();
 					
 				case VAlign.BOTTOM:
 					setVerticalAlignBottom();
+					
+				case _:
 			}
 		}
 	}
@@ -61,7 +61,7 @@ class HUIBox extends UIBox
 		for (i in 0...numChildren)
 		{
 			var child:DisplayObject = getChildAt(i);
-			child.y = y + height / 2 - child.height / 2;
+			child.y = height / 2 - child.height / 2;
 		}
 	}
 	
@@ -70,7 +70,7 @@ class HUIBox extends UIBox
 		for (i in 0...numChildren)
 		{
 			var child:DisplayObject = getChildAt(i);
-			child.y = y + height - child.height;
+			child.y = height - child.height;
 		}
 	}
 }
