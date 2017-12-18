@@ -4,33 +4,33 @@ package hpp.heaps;
  * ...
  * @author Krisztian Somoracz
  */
-class Base2dState 
+class Base2dState
 {
 	var stage:Base2dStage;
 	var changeState:Class<Base2dState>->Void;
-	
+
 	var activeSubState:Base2dSubState;
-	
+
 	public function new(stage:Base2dStage, changeState:Class<Base2dState>->Void)
 	{
 		this.stage = stage;
 		this.changeState = changeState;
-		
+
 		build();
 	}
-	
+
 	public function openSubState(subState:Base2dSubState):Void
 	{
 		closeSubState();
-		
+
 		activeSubState = subState;
 		stage.addChild(activeSubState.container);
 		activeSubState.onOpen();
-		
+
 		onSubStateChanged(activeSubState);
 	}
-	
-	public function closeSubState() 
+
+	public function closeSubState()
 	{
 		if (activeSubState != null)
 		{
@@ -39,10 +39,10 @@ class Base2dState
 			activeSubState = null;
 		}
 	}
-	
+
 	function build() {}
 	public function onSubStateChanged(activeSubState:Base2dSubState) {}
-	
+
 	public function update(float:Float) { if (activeSubState != null) activeSubState.update(float); }
 	public function dispose() { if (activeSubState != null) activeSubState.dispose(); }
 	public function onFocus() { if (activeSubState != null) activeSubState.onFocus(); }

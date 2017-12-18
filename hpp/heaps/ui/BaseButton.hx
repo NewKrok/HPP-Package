@@ -21,48 +21,55 @@ class BaseButton extends Layers
 	public var isSelected(default, set):Bool;
 	public var isSelectable(default, set):Bool;
 	public var onSelected(null, set):BaseButton->Void;
-	
+
+	public var overScale:Float = 1;
+	public var overAlpha:Float = 1;
+
 	public var onClick:BaseButton->Void;
-	
+
 	var onSelectedCallbacks:Array<BaseButton->Void> = [];
-	
+
 	var baseGraphic:Bitmap;
 	var overGraphic:Bitmap;
 	var selectedGraphic:Bitmap;
-	
+
 	public function new(parent = null, onClick:BaseButton->Void = null, text:String = "", baseGraphic:Tile = null, overGraphic:Tile = null, selectedGraphic:Tile = null, font:Font = null)
 	{
 		super(parent);
-		
+
 		this.onClick = onClick;
 		this.baseGraphic = new Bitmap(baseGraphic == null ? Tile.fromColor(0x404040, 175, 50) : baseGraphic, this);
-		this.baseGraphic.smooth = true;
+		this.baseGraphic.smooth = true
 		this.overGraphic = new Bitmap(overGraphic == null ? baseGraphic == null ? Tile.fromColor(0x606060, 175, 50) : this.baseGraphic.tile.clone() : overGraphic);
-		this.overGraphic.smooth = true;
+		this.overGraphic.smooth = true
 		this.selectedGraphic = new Bitmap(selectedGraphic == null ? baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 50, .1) : this.baseGraphic.tile.clone() : selectedGraphic);
-		this.selectedGraphic.smooth = true;
-		
-		label = new Text(FontBuilder.getFont("Arial", 20), this);
+		this.selectedGraphic.smooth = true
+
+		label = new Text(font == null ? FontBuilder.getFont("Verdana", 20) : font, this);
 		label.text = text;
 		label.textAlign = Align.Center;
 		label.maxWidth = this.baseGraphic.tile.width;
 		updateView();
-		
+
 		var interactive:Interactive = new Interactive(this.baseGraphic.tile.width, this.baseGraphic.tile.height, this);
 		interactive.cursor = Button;
 		interactive.onClick = onClickHandler;
 		interactive.onOver = onOverHandler;
 		interactive.onOut = onOutHandler;
 	}
-	
-	function onOverHandler(_) 
+
+	function onOverHandler(_)
 	{
 		addChildAt(overGraphic, -1);
+
 		removeChild(selectedGraphic);
 		removeChild(baseGraphic);
+
+		overGraphic.alpha(overAlpha);
+		overGraphic.scale(overScale);
 	}
-	
-	function onOutHandler(_) 
+
+	function onOutHandler(_)
 	{
 		if (isSelectable && isSelected)
 		{
@@ -74,63 +81,66 @@ class BaseButton extends Layers
 			addChildAt(baseGraphic, -1);
 			removeChild(selectedGraphic);
 		}
-		
+
 		removeChild(overGraphic);
+
+		overGraphic.alpha(1);
+		overGraphic.scale(1);
 	}
-	
+
 	public function onClickHandler(_):Void
 	{
 		if (isSelectable) toggle();
-		
+
 		onOutHandler(_);
-		
+
 		if (onClick != null)
 		{
 			onClick(this);
 		}
 	}
-	
-	function get_labelText():String 
+
+	function get_labelText():String
 	{
 		return label.text;
 	}
-	
-	function set_labelText(value:String):String 
+
+	function set_labelText(value:String):String
 	{
 		return label.text = value;
 	}
-	
+
 	public function get_font():Font
 	{
 		return label.font;
 	}
-	
+
 	public function set_font(font:Font):Font
 	{
 		label.font = font;
 		updateView();
-		
+
 		return font;
 	}
-	
+
 	public function toggle():Void
 	{
 		isSelected = !isSelected;
 	}
-	
-	function set_isSelectable(value:Bool):Bool 
+
+	function set_isSelectable(value:Bool):Bool
 	{
 		isSelectable = value;
-		
+
 		onOutHandler(null);
-		
+
 		return value;
 	}
-	
-	function set_isSelected(value:Bool):Bool 
+
+	function set_isSelected(value:Bool):Bool
 	{
 		isSelected = value;
-		
+
 		if (isSelected)
 		{
 			for (callback in onSelectedCallbacks)
@@ -138,22 +148,22 @@ class BaseButton extends Layers
 				callback(this);
 			}
 		}
-		
+
 		onOutHandler(null);
-		
+
 		return value;
 	}
-	
+
 	function updateView():Void
 	{
-		label.maxWidth = this.baseGraphic.tile.width / label.scaleX;
-		label.y = this.baseGraphic.tile.height / 2 - label.textHeight * label.scaleX / 2;
+		label.maxWidth = baseGraphic.tile.width / label.scaleX;
+		label.y = baseGraphic.tile.height / 2 - label.textHeight * label.scaleY / 2;
 	}
-	
-	function set_onSelected(value:BaseButton->Void):BaseButton->Void 
+
+	function set_onSelected(value:BaseButton->Void):BaseButton->Void
 	{
 		onSelectedCallbacks.push(value);
-		
+
 		return value;
 	}
 }

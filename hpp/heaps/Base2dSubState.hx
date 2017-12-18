@@ -9,13 +9,13 @@ import h2d.Layers;
 class Base2dSubState
 {
 	public var container(default, null):Layers;
-	
+
 	public function new()
 	{
 		container = new Layers();
 		build();
 	}
-	
+
 	function build() {}
 	public function onOpen() {}
 	public function onClose() {}
