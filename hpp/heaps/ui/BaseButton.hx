@@ -7,6 +7,7 @@ import h2d.Layers;
 import h2d.Text;
 import h2d.Tile;
 import h2d.comp.Button;
+import hpp.util.GeomUtil.SimplePoint;
 import hxd.res.FontBuilder;
 
 /**
@@ -21,9 +22,10 @@ class BaseButton extends Layers
 	public var isSelected(default, set):Bool;
 	public var isSelectable(default, set):Bool;
 	public var onSelected(null, set):BaseButton->Void;
+	public var textOffset(default, set):SimplePoint = { x:0, y:0 };
 
-	public var overScale:Float = 1;
 	public var overAlpha:Float = 1;
+	public var selectedAlpha:Float = 1;
 
 	public var onClick:BaseButton->Void;
 
@@ -65,12 +67,13 @@ class BaseButton extends Layers
 		removeChild(selectedGraphic);
 		removeChild(baseGraphic);
 
-		alpha = overAlpha;
-		scale(overScale);
+		overGraphic.alpha = overAlpha;
 	}
 
 	function onOutHandler(_)
 	{
+		overGraphic.alpha = 1;
+
 		if (isSelectable && isSelected)
 		{
 			addChildAt(selectedGraphic, -1);
@@ -83,9 +86,6 @@ class BaseButton extends Layers
 		}
 
 		removeChild(overGraphic);
-
-		alpha = 1;
-		scale(1);
 	}
 
 	public function onClickHandler(_):Void
@@ -143,10 +143,16 @@ class BaseButton extends Layers
 
 		if (isSelected)
 		{
+			selectedGraphic.alpha = selectedAlpha;
+
 			for (callback in onSelectedCallbacks)
 			{
 				callback(this);
 			}
+		}
+		else
+		{
+			selectedGraphic.alpha = 1;
 		}
 
 		onOutHandler(null);
@@ -156,8 +162,9 @@ class BaseButton extends Layers
 
 	function updateView():Void
 	{
-		label.maxWidth = baseGraphic.tile.width / label.scaleX;
-		label.y = baseGraphic.tile.height / 2 - label.textHeight * label.scaleY / 2;
+		label.maxWidth = baseGraphic.tile.width / label.scaleX - textOffset.x * 2;
+		label.x = textOffset.x;
+		label.y = textOffset.y + baseGraphic.tile.height / 2 - label.textHeight * label.scaleY / 2;
 	}
 
 	function set_onSelected(value:BaseButton->Void):BaseButton->Void
@@ -165,5 +172,13 @@ class BaseButton extends Layers
 		onSelectedCallbacks.push(value);
 
 		return value;
+	}
+
+	function set_textOffset(value:SimplePoint):SimplePoint
+	{
+		textOffset = value;
+		updateView();
+
+		return textOffset;
 	}
 }
