@@ -39,11 +39,11 @@ class BaseButton extends Layers
 
 		this.onClick = onClick;
 		this.baseGraphic = new Bitmap(baseGraphic == null ? Tile.fromColor(0x404040, 175, 50) : baseGraphic, this);
-		this.baseGraphic.smooth = true
+		this.baseGraphic.smooth = true;
 		this.overGraphic = new Bitmap(overGraphic == null ? baseGraphic == null ? Tile.fromColor(0x606060, 175, 50) : this.baseGraphic.tile.clone() : overGraphic);
-		this.overGraphic.smooth = true
+		this.overGraphic.smooth = true;
 		this.selectedGraphic = new Bitmap(selectedGraphic == null ? baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 50, .1) : this.baseGraphic.tile.clone() : selectedGraphic);
-		this.selectedGraphic.smooth = true
+		this.selectedGraphic.smooth = true;
 
 		label = new Text(font == null ? FontBuilder.getFont("Verdana", 20) : font, this);
 		label.text = text;
@@ -65,8 +65,8 @@ class BaseButton extends Layers
 		removeChild(selectedGraphic);
 		removeChild(baseGraphic);
 
-		overGraphic.alpha(overAlpha);
-		overGraphic.scale(overScale);
+		alpha = overAlpha;
+		scale(overScale);
 	}
 
 	function onOutHandler(_)
@@ -84,8 +84,8 @@ class BaseButton extends Layers
 
 		removeChild(overGraphic);
 
-		overGraphic.alpha(1);
-		overGraphic.scale(1);
+		alpha = 1;
+		scale(1);
 	}
 
 	public function onClickHandler(_):Void
