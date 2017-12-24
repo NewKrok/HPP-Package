@@ -1,6 +1,8 @@
-package hpp.openfl.ui;
+package hpp.heaps.ui;
 
-import openfl.display.DisplayObject;
+import h2d.Font;
+import h2d.Tile;
+import hpp.heaps.ui.BaseButton;
 
 /**
  * ...
@@ -11,15 +13,16 @@ class LinkedButton extends BaseButton
 	public var links:Array<LinkedButton>;
 
 	public function new(
+		parent = null,
 		onClick:BaseButton->Void = null,
 		text:String = "",
-		baseGraphic:DisplayObject = null,
-		overGraphic:DisplayObject = null,
-		selectedGraphic:DisplayObject = null,
-		font:String = "Verdana"
-	)
-	{
-		super(onClick, text, baseGraphic, overGraphic, selectedGraphic, font);
+		baseGraphic:Tile = null,
+		overGraphic:Tile = null,
+		selectedGraphic:Tile = null,
+		disabledGraphic:Tile = null,
+		font:Font = null
+	){
+		super(parent, onClick, text, baseGraphic, overGraphic, selectedGraphic, disabledGraphic, font);
 
 		links = [];
 		isSelectable = true;
