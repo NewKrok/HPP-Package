@@ -3,7 +3,9 @@ package view;
 import h2d.Flow;
 import h2d.Sprite;
 import hpp.heaps.ui.LinkedButton;
+import hpp.heaps.ui.TextWithSize;
 import hxd.Res;
+import hxd.res.FontBuilder;
 
 /**
  * ...
@@ -18,6 +20,10 @@ class Menu extends Flow
 		super(parent);
 
 		horizontalSpacing = 20;
+		verticalAlign = FlowAlign.Middle;
+
+		var label:TextWithSize = new TextWithSize(FontBuilder.getFont("Verdana", 12), this);
+		label.text = "Change sub state:";
 
 		createButton("Stage settings", openStageSample);
 		createButton("UI", openUISample);
@@ -30,7 +36,7 @@ class Menu extends Flow
 	{
 		var button = new LinkedButton(
 			this,
-			function(_) {callback();},
+			function(_) { callback(); },
 			labelText,
 			Res.image.button_big.toTile(),
 			Res.image.button_big_over.toTile(),

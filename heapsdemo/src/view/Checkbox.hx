@@ -32,7 +32,7 @@ class Checkbox extends LinkedButton
 		updateView();
 	}
 
-	override public function getSize(?Bounds):Bounds
+	override public function getSize(?out:Bounds):Bounds
 	{
 		var result:Bounds = super.getSize(out);
 
