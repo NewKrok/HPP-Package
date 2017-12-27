@@ -3,7 +3,8 @@
 Some useful classes for our Haxe and HaxeFlixel projects
 
 ## Demo
-Try the demo project online: http://flashplusplus.net/haxe/demo/hpp/index.html
+Try the Heaps demo project online: http://flashplusplus.net/haxe/demo/hpp/heaps/index.html
+Try the Flixel demo project online: http://flashplusplus.net/haxe/demo/hpp/index.html
 
 ## Usage
 You can easily install it with this command:
