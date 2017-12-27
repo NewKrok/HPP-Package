@@ -45,8 +45,8 @@ class MenuState extends Base2dState
 	function rePosition()
 	{
 		menu.x = stage.width / 2 - menu.outerWidth / 2;
-		menu.y = 100;
+		menu.y = 50;
 
-		background.resize(stage.width, stage.height);
+		background.onResize(stage.width, stage.height);
 	}
 }

@@ -19,8 +19,8 @@ class Base2dStage extends Layers
 	public var height(get, never):Float;
 	public var mouseX(get, never):Float;
 	public var mouseY(get, never):Float;
-	public var defaultWidth:Int = 800;
-	public var defaultHeight:Int = 600;
+	public var defaultWidth:Int = 1136;
+	public var defaultHeight:Int = 640;
 
 	var stageBorder:Graphics;
 
@@ -40,13 +40,14 @@ class Base2dStage extends Layers
 		this.s2d = s2d;
 		this.engine = engine;
 
-		stageBorder = new Graphics(s2d);
+		stageBorder = new Graphics(this);
 	}
 
 	function set_stageScaleMode(value:StageScaleMode):StageScaleMode
 	{
 		stageScaleMode = value;
 		onStageScaleModeChanged();
+		updateStageBorder();
 		return stageScaleMode;
 	}
 
@@ -54,6 +55,7 @@ class Base2dStage extends Layers
 	{
 		stagePosition = value;
 		onStagePositionChanged();
+		updateStageBorder();
 		return stagePosition;
 	}
 

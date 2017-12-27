@@ -78,9 +78,6 @@ class Base2dApp extends App
 
 	function updateStageScaleMode()
 	{
-		var tempStageWidth:Float = stage.width;
-		var tempStageHeight:Float = stage.height;
-
 		switch (stage.stageScaleMode)
 		{
 			case StageScaleMode.NO_SCALE:
@@ -112,14 +109,16 @@ class Base2dApp extends App
 			case StageScaleMode.EXACT_FIT:
 				var currentRatioX:Float = stage.scaleX;
 				var currentRatioY:Float = stage.scaleY;
-				stage.scaleX = s2d.width / stage.defaultWidth;
-				stage.scaleY = s2d.height / stage.defaultHeight;
+				stage.scaleX = engine.width / stage.width;
+				stage.scaleY = engine.height / stage.height;
 
 				if (currentState != null && currentRatioX != stage.scaleX || currentRatioY != stage.scaleY )
 					currentState.onStageScale(stage.scaleX, stage.scaleY);
 		}
 
 		if (currentState != null) currentState.onStageResize(stage.width, stage.height);
+
+		updateStagePosition();
 	}
 
 	function getWidthRatio():Float
@@ -134,6 +133,13 @@ class Base2dApp extends App
 
 	function updateStagePosition()
 	{
+		if (stage.stageScaleMode != StageScaleMode.SHOW_ALL)
+		{
+			stage.x = 0;
+			stage.y = 0;
+			return;
+		}
+
 		switch (stage.stagePosition)
 		{
 			case StagePosition.LEFT_TOP:
@@ -142,35 +148,35 @@ class Base2dApp extends App
 
 			case StagePosition.LEFT_MIDDLE:
 				stage.x = 0;
-				stage.y = engine.height / 2 - stage.height / 2;
+				stage.y = engine.height / 2 - stage.height * stage.scaleY / 2;
 
 			case StagePosition.LEFT_BOTTOM:
 				stage.x = 0;
-				stage.y = engine.height - stage.height;
+				stage.y = engine.height - stage.height * stage.scaleY;
 
 			case StagePosition.CENTER_TOP:
-				stage.x = engine.width / 2 - stage.width / 2;
+				stage.x = engine.width / 2 - stage.width * stage.scaleX / 2;
 				stage.y = 0;
 
 			case StagePosition.CENTER_MIDDLE:
-				stage.x = engine.width / 2 - stage.width / 2;
-				stage.y = engine.height / 2 - stage.height / 2;
+				stage.x = engine.width / 2 - stage.width * stage.scaleX / 2;
+				stage.y = engine.height / 2 - stage.height * stage.scaleY / 2;
 
 			case StagePosition.CENTER_BOTTOM:
-				stage.x = engine.width / 2 - stage.width / 2;
-				stage.y = engine.height - stage.height;
+				stage.x = engine.width / 2 - stage.width * stage.scaleX / 2;
+				stage.y = engine.height - stage.height * stage.scaleY;
 
 			case StagePosition.RIGHT_TOP:
-				stage.x = engine.width - stage.width;
+				stage.x = engine.width - stage.width * stage.scaleX;
 				stage.y = 0;
 
 			case StagePosition.RIGHT_MIDDLE:
-				stage.x = engine.width - stage.width;
-				stage.y = engine.height / 2 - stage.height / 2;
+				stage.x = engine.width - stage.width * stage.scaleX;
+				stage.y = engine.height / 2 - stage.height * stage.scaleY / 2;
 
 			case StagePosition.RIGHT_BOTTOM:
-				stage.x = engine.width - stage.width;
-				stage.y = engine.height - stage.height;
+				stage.x = engine.width - stage.width * stage.scaleX;
+				stage.y = engine.height - stage.height * stage.scaleY;
 		}
 	}
 

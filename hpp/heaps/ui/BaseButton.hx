@@ -204,6 +204,7 @@ class BaseButton extends Layers
 
 		interactive.visible = isEnabled;
 		updateView();
+		onOutHandler(null);
 
 		return isEnabled;
 	}

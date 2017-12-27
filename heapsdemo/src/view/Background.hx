@@ -20,7 +20,7 @@ class Background extends Layers
 		addChild(backgroundLogo = new Bitmap(Res.image.background_logo.toTile()));
 	}
 
-	public function resize(stageWidth:Float, stageHidth:Float)
+	public function onResize(stageWidth:Float, stageHidth:Float)
 	{
 		x = stageWidth / 2 - backgroundLogo.tile.width / 2;
 		y = stageHidth / 2 - backgroundLogo.tile.height / 2;
