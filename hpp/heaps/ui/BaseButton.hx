@@ -8,6 +8,7 @@ import h2d.Text;
 import h2d.Tile;
 import h2d.comp.Button;
 import hpp.util.GeomUtil.SimplePoint;
+import hpp.util.Selector;
 import hxd.res.FontBuilder;
 
 /**
@@ -19,14 +20,14 @@ class BaseButton extends Layers
 	public var label(default, null):Text;
 	public var labelText(get, set):String;
 	public var font(get, set):Font;
-	public var isEnabled(default, set):Bool = true;
+	public var isEnabled(default, set):Bool;
 	public var isSelected(default, set):Bool;
 	public var isSelectable(default, set):Bool;
 	public var onSelected(null, set):BaseButton->Void;
-	public var textOffset(default, set):SimplePoint = { x:0, y:0 };
+	public var textOffset(default, set):SimplePoint;
 
-	public var overAlpha:Float = 1;
-	public var selectedAlpha:Float = 1;
+	public var overAlpha:Float;
+	public var selectedAlpha:Float;
 
 	public var onClick:BaseButton->Void;
 
@@ -39,31 +40,40 @@ class BaseButton extends Layers
 
 	var interactive:Interactive;
 
-	public function new(parent = null, onClick:BaseButton->Void = null, text:String = "", baseGraphic:Tile = null, overGraphic:Tile = null, selectedGraphic:Tile = null, disabledGraphic:Tile = null, font:Font = null)
+	public function new(parent = null, config:BaseButtonConfig = null)
 	{
 		super(parent);
 
-		this.onClick = onClick;
-		this.baseGraphic = new Bitmap(baseGraphic == null ? Tile.fromColor(0x404040, 175, 50) : baseGraphic, this);
-		this.baseGraphic.smooth = true;
-		this.overGraphic = new Bitmap(overGraphic == null ? baseGraphic == null ? Tile.fromColor(0x606060, 175, 50) : this.baseGraphic.tile.clone() : overGraphic);
-		this.overGraphic.smooth = true;
-		this.selectedGraphic = new Bitmap(selectedGraphic == null ? baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 50, .3) : this.baseGraphic.tile.clone() : selectedGraphic);
-		this.selectedGraphic.smooth = true;
-		this.disabledGraphic = new Bitmap(disabledGraphic == null ? selectedGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 50, .1) : this.selectedGraphic.tile.clone() : disabledGraphic);
-		this.disabledGraphic.smooth = true;
+		onClick = config.onClick;
+		baseGraphic = new Bitmap(config.baseGraphic == null ? Tile.fromColor(0x404040, 175, 35) : config.baseGraphic, this);
+		baseGraphic.smooth = true;
+		overGraphic = new Bitmap(config.overGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0x606060, 175, 35) : baseGraphic.tile.clone() : config.overGraphic);
+		overGraphic.smooth = true;
+		selectedGraphic = new Bitmap(config.selectedGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .3) : baseGraphic.tile.clone() : config.selectedGraphic);
+		selectedGraphic.smooth = true;
+		disabledGraphic = new Bitmap(config.disabledGraphic == null ? config.selectedGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .1) : selectedGraphic.tile.clone() : config.disabledGraphic);
+		disabledGraphic.smooth = true;
 
-		label = new Text(font == null ? FontBuilder.getFont("Verdana", 20) : font, this);
-		label.text = text;
-		label.textAlign = Align.Center;
-		label.maxWidth = this.baseGraphic.tile.width;
-		updateView();
+		label = new Text(config.font == null ? FontBuilder.getFont("Verdana", Selector.firstNotNull([config.fontSize, 12])) : config.font, this);
+		label.text = Selector.firstNotNull([config.labelText, ""]);
+		label.textColor = Selector.firstNotNull([config.textColor, 0xFFFFFF]);
+		label.textAlign = Selector.firstNotNull([config.textAlign, Align.Center]);
+		label.maxWidth = baseGraphic.tile.width;
 
-		interactive = new Interactive(this.baseGraphic.tile.width, this.baseGraphic.tile.height, this);
+		interactive = new Interactive(baseGraphic.tile.width, baseGraphic.tile.height, this);
 		interactive.cursor = Button;
 		interactive.onClick = onClickHandler;
 		interactive.onOver = onOverHandler;
 		interactive.onOut = onOutHandler;
+
+		textOffset = Selector.firstNotNull([config.textOffset, { x: 0, y: 0 }]);
+		isEnabled = Selector.firstNotNull([config.isEnabled, true]);
+		isSelectable = Selector.firstNotNull([config.isSelectable, false]);
+		isSelected = Selector.firstNotNull([config.isSelected, false]);
+		overAlpha = Selector.firstNotNull([config.overAlpha, 1]);
+		selectedAlpha = Selector.firstNotNull([config.selectedAlpha, 1]);
+
+		updateView();
 	}
 
 	function onOverHandler(_)
@@ -178,9 +188,12 @@ class BaseButton extends Layers
 
 	function updateView():Void
 	{
-		label.maxWidth = baseGraphic.tile.width / label.scaleX - textOffset.x * 2;
-		label.x = textOffset.x;
-		label.y = textOffset.y + baseGraphic.tile.height / 2 - label.textHeight * label.scaleY / 2;
+		if (label != null)
+		{
+			label.maxWidth = baseGraphic.tile.width / label.scaleX - textOffset.x * 2;
+			label.x = textOffset.x;
+			label.y = textOffset.y + baseGraphic.tile.height / 2 - label.textHeight * label.scaleY / 2;
+		}
 	}
 
 	function set_onSelected(value:BaseButton->Void):BaseButton->Void
@@ -208,4 +221,23 @@ class BaseButton extends Layers
 
 		return isEnabled;
 	}
+}
+
+typedef BaseButtonConfig = {
+	var onClick:BaseButton->Void;
+	@:optional var labelText:String;
+	@:optional var textOffset:SimplePoint;
+	@:optional var textAlign:Align;
+	@:optional var font:Font;
+	@:optional var textColor:Int;
+	@:optional var fontSize:Float;
+	@:optional var baseGraphic:Tile;
+	@:optional var overGraphic:Tile;
+	@:optional var selectedGraphic:Tile;
+	@:optional var disabledGraphic:Tile;
+	@:optional var isSelectable:Bool;
+	@:optional var isSelected:Bool;
+	@:optional var isEnabled:Bool;
+	@:optional var overAlpha:Float;
+	@:optional var selectedAlpha:Float;
 }

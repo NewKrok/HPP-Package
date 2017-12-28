@@ -17,18 +17,19 @@ class Checkbox extends LinkedButton
 	{
 		super(
 			parent,
-			function(_) { callback(); },
-			labelText,
-			Res.image.checkbox.toTile(),
-			Res.image.checkbox_over.toTile(),
-			Res.image.checkbox_selected.toTile(),
-			null,
-			FontBuilder.getFont("Verdana", 15)
+			{
+				onClick: function(_) { callback(); },
+				labelText: labelText,
+				textAlign: Align.Left,
+				textOffset: { x: 45, y: 0 },
+				font: FontBuilder.getFont("Verdana", 15),
+				baseGraphic: Res.image.checkbox.toTile(),
+				overGraphic: Res.image.checkbox_over.toTile(),
+				selectedGraphic: Res.image.checkbox_selected.toTile(),
+				isSelectable: true
+			}
 		);
 
-		isSelectable = true;
-		label.textAlign = Align.Left;
-		textOffset.x = 45;
 		updateView();
 	}
 

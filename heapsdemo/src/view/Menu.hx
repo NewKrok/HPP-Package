@@ -36,14 +36,16 @@ class Menu extends Flow
 	{
 		var button = new LinkedButton(
 			this,
-			function(_) { callback(); },
-			labelText,
-			Res.image.button_big.toTile(),
-			Res.image.button_big_over.toTile(),
-			Res.image.button_big_selected.toTile(),
-			Res.image.button_big_selected.toTile()
+			{
+				onClick: function(_) { callback(); },
+				labelText: labelText,
+				textColor: 0x000000,
+				baseGraphic: Res.image.button_big.toTile(),
+				overGraphic: Res.image.button_big_over.toTile(),
+				selectedGraphic: Res.image.button_big_selected.toTile(),
+				disabledGraphic: Res.image.button_big_selected.toTile()
+			}
 		);
-		button.label.textColor = 0x000000;
 
 		buttons.push(button);
 	}

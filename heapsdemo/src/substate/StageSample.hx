@@ -10,6 +10,7 @@ import hpp.heaps.Base2dSubState;
 import hpp.heaps.ui.PlaceHolder;
 import hxd.res.FontBuilder;
 import view.Checkbox;
+import view.SubContent;
 
 /**
  * ...
@@ -33,17 +34,7 @@ class StageSample extends Base2dSubState
 
 	function createStageScalePanel()
 	{
-		var subContent = new Flow(content);
-		subContent.verticalSpacing = 10;
-		subContent.padding = 10;
-		subContent.minWidth = 660;
-		subContent.horizontalAlign = FlowAlign.Left;
-		subContent.isVertical = true;
-		subContent.backgroundTile = Tile.fromColor(0x000000, 1, 1, .4);
-
-		var label:Text = new Text(FontBuilder.getFont("Verdana", 12), subContent);
-		label.text = "Change stage scale mode";
-		new PlaceHolder(subContent, 10, 15);
+		var subContent:SubContent = new SubContent(content, 660, "Change stage scale mode");
 
 		var firstCheckbox:Checkbox = new Checkbox(
 			subContent,
@@ -54,30 +45,20 @@ class StageSample extends Base2dSubState
 
 		firstCheckbox.linkToButton(new Checkbox(
 			subContent,
-			"SHOW_ALL",
+			"SHOW_ALL (default stage size: 1136x640)",
 			function() { stage.stageScaleMode = StageScaleMode.SHOW_ALL; }
 		));
 
 		firstCheckbox.linkToButton(new Checkbox(
 			subContent,
-			"EXACT_FIT",
+			"EXACT_FIT (default stage size: 1136x640)",
 			function() { stage.stageScaleMode = StageScaleMode.EXACT_FIT; }
 		));
 	}
 
 	function createStagePositionPanel()
 	{
-		var subContent = new Flow(content);
-		subContent.verticalSpacing = 10;
-		subContent.padding = 10;
-		subContent.minWidth = 660;
-		subContent.horizontalAlign = FlowAlign.Left;
-		subContent.isVertical = true;
-		subContent.backgroundTile = Tile.fromColor(0x000000, 1, 1, .4);
-
-		var label:Text = new Text(FontBuilder.getFont("Verdana", 12), subContent);
-		label.text = "Change stage position (Only for stage 'Show all' mode)";
-		new PlaceHolder(subContent, 10, 15);
+		var subContent:SubContent = new SubContent(content, 660, "Change stage position (Only for stage 'Show all' mode)");
 
 		var grid:Flow = new Flow(subContent);
 		grid.isVertical = false;
