@@ -1,4 +1,4 @@
-![Alt text](/assets/images/hpp_logo_small.png "HPP-Package")
+![Alt text](/flixeldemo/assets/images/hpp_logo_small.png "HPP-Package")
 # HPP-Package
 Some useful classes for our Haxe and HaxeFlixel projects
 
