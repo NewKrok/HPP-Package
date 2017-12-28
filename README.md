@@ -16,8 +16,8 @@ And after just add it to your project like this:
 <haxelib name="hpp" src="git://github.com/NewKrok/HPP-Package.git" />
 ```
 
-## Build samples
-To build sample projects, helpful if you make a symlink for the hpp folder from the sample project's folder (in Windows)
+## Build demos
+To build demo projects, helpful if you make a symlink for the hpp folder from the sample project's folder (in Windows)
 ```
 mklink /J "hpp" "../hpp"
 ```
