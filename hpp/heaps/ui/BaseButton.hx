@@ -6,9 +6,9 @@ import h2d.Interactive;
 import h2d.Layers;
 import h2d.Text;
 import h2d.Tile;
-import h2d.comp.Button;
 import hpp.util.GeomUtil.SimplePoint;
 import hpp.util.Selector;
+import hxd.Cursor;
 import hxd.res.FontBuilder;
 
 /**
@@ -61,7 +61,7 @@ class BaseButton extends Layers
 		label.maxWidth = baseGraphic.tile.width;
 
 		interactive = new Interactive(baseGraphic.tile.width, baseGraphic.tile.height, this);
-		interactive.cursor = Button;
+		interactive.cursor = Cursor.Button;
 		interactive.onClick = onClickHandler;
 		interactive.onOver = onOverHandler;
 		interactive.onOut = onOutHandler;
