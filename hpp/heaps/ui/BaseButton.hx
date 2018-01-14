@@ -24,6 +24,7 @@ class BaseButton extends Layers
 	public var isSelected(default, set):Bool;
 	public var isSelectable(default, set):Bool;
 	public var onSelected(null, set):BaseButton->Void;
+	public var onDeselected(null, set):BaseButton->Void;
 	public var textOffset(default, set):SimplePoint;
 
 	public var overAlpha:Float;
@@ -32,6 +33,7 @@ class BaseButton extends Layers
 	public var onClick:BaseButton->Void;
 
 	var onSelectedCallbacks:Array<BaseButton->Void> = [];
+	var onDeselectedCallbacks:Array<BaseButton->Void> = [];
 
 	var baseGraphic:Bitmap;
 	var overGraphic:Bitmap;
@@ -179,6 +181,11 @@ class BaseButton extends Layers
 		else
 		{
 			selectedGraphic.alpha = 1;
+
+			for (callback in onDeselectedCallbacks)
+			{
+				callback(this);
+			}
 		}
 
 		onOutHandler(null);
@@ -199,6 +206,13 @@ class BaseButton extends Layers
 	function set_onSelected(value:BaseButton->Void):BaseButton->Void
 	{
 		onSelectedCallbacks.push(value);
+
+		return value;
+	}
+
+	function set_onDeselected(value:BaseButton->Void):BaseButton->Void
+	{
+		onDeselectedCallbacks.push(value);
 
 		return value;
 	}

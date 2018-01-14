@@ -21,10 +21,12 @@ class BaseButton extends Sprite
 	public var isSelected(default, set):Bool;
 	public var isSelectable(default, set):Bool;
 	public var onSelected(null, set):BaseButton->Void;
+	public var onDeselected(null, set):BaseButton->Void;
 
 	public var onClick:BaseButton->Void;
 
 	var onSelectedCallbacks:Array<BaseButton->Void> = [];
+	var onDeselectedCallbacks:Array<BaseButton->Void> = [];
 
 	var baseGraphic:DisplayObject;
 	var overGraphic:DisplayObject;
@@ -169,6 +171,13 @@ class BaseButton extends Sprite
 				callback(this);
 			}
 		}
+		else
+		{
+			for (callback in onDeselectedCallbacks)
+			{
+				callback(this);
+			}
+		}
 
 		onOutHandler(null);
 
@@ -184,6 +193,13 @@ class BaseButton extends Sprite
 	function set_onSelected(value:BaseButton->Void):BaseButton->Void
 	{
 		onSelectedCallbacks.push(value);
+
+		return value;
+	}
+
+	function set_onDeselected(value:BaseButton->Void):BaseButton->Void
+	{
+		onDeselectedCallbacks.push(value);
 
 		return value;
 	}
