@@ -4,6 +4,7 @@
 	<SubTexture name="logo" x="110" y="80" width="123" height="40" pivotX="0" pivotY="0"/>
 	<SubTexture name="demo_content_box" x="0" y="80" width="100" height="100" pivotX="0" pivotY="0"/>
 	<SubTexture name="menu_button" x="243" y="80" width="400" height="60" pivotX="0" pivotY="0"/>
+	<SubTexture name="menu_button_over" x="243" y="145" width="400" height="60" pivotX="0" pivotY="0"/>
 	<SubTexture name="small_button" x="653" y="80" width="110" height="40" pivotX="0" pivotY="0"/>
 	<SubTexture name="small_button_dark" x="773" y="80" width="110" height="40" pivotX="0" pivotY="0"/>
 	<SubTexture name="icon_dark" x="653" y="130" width="27" height="27" pivotX="0" pivotY="0"/>
