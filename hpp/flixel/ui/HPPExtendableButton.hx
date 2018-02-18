@@ -9,44 +9,34 @@ import flixel.group.FlxSpriteGroup;
  */
 class HPPExtendableButton extends FlxSpriteGroup
 {
-	public var overScale( get, set ):Float;
-	
+	public var overScale:Float = 1;
+
 	var button:HPPButton;
-	
-	public function new( onClick:HPPButton->Void = null, graphicId:String = null )
+
+	public function new(onClick:HPPButton->Void = null, graphicId:String = null)
 	{
 		super();
-		
-		super.add( button = new HPPButton( "", onClick, graphicId ) );
-		
+
+		super.add(button = new HPPButton("", onClick, graphicId));
+
 		button.onMouseOver = onMouseOver;
 		button.onMouseOut = onMouseOut;
 	}
-	
-	function onMouseOver() 
+
+	function onMouseOver()
 	{
-		scale.set( button.overScale, button.overScale );
+		scale.set(overScale, overScale);
 	}
-	
-	function onMouseOut() 
+
+	function onMouseOut()
 	{
-		scale.set( 1, 1 );
+		scale.set(1, 1);
 	}
-	
-	override public function add( sprite:FlxSprite ):FlxSprite 
+
+	override public function add(sprite:FlxSprite):FlxSprite
 	{
-		super.add( sprite );
-		
+		super.add(sprite);
+
 		return sprite;
-	}
-	
-	public function get_overScale():Float
-	{
-		return button.overScale;
-	}
-	
-	public function set_overScale( value:Float ):Float
-	{
-		return button.overScale = value;
 	}
 }

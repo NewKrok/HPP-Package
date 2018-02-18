@@ -7,7 +7,6 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import hpp.flixel.util.HPPAssetManager;
 
-
 /**
  * ...
  * @author Krisztian Somoracz
@@ -87,44 +86,20 @@ class HPPButton extends FlxUIButton
 
 	override private function onOverHandler():Void
 	{
-		scale.set(overScale, overScale);
-
-		if (overGraphic != null)
-		{
-			loadGraphic(HPPAssetManager.getGraphic(overGraphic));
-		}
-
-		if (label != null)
-		{
-			label.scale.set(overScale, overScale);
-		}
-
-		if (onMouseOver != null)
-		{
-			onMouseOver();
-		}
+		if (overScale != 1) scale.set(overScale, overScale);
+		if (overGraphic != null) loadGraphic(HPPAssetManager.getGraphic(overGraphic));
+		if (label != null) label.scale.set(overScale, overScale);
+		if (onMouseOver != null) onMouseOver();
 
 		super.onOverHandler();
 	}
 
 	override private function onOutHandler():Void
 	{
-		scale.set(1, 1);
-
-		if (baseGraphic != null)
-		{
-			loadGraphic(HPPAssetManager.getGraphic(baseGraphic));
-		}
-
-		if (label != null)
-		{
-			label.scale.set(1, 1);
-		}
-
-		if (onMouseOut != null)
-		{
-			onMouseOut();
-		}
+		if (overScale != 1) scale.set(1, 1);
+		if (baseGraphic != null && overGraphic != null) loadGraphic(HPPAssetManager.getGraphic(baseGraphic));
+		if (label != null) label.scale.set(1, 1);
+		if (onMouseOut != null)onMouseOut();
 
 		super.onOutHandler();
 	}
