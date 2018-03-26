@@ -23,4 +23,5 @@ mklink /J "hpp" "../hpp"
 ```
 
 ## Showcase
+  * Valley Race https://github.com/NewKrok/Valley-Race
   * Mountain Monster HTML5 version https://github.com/NewKrok/Mountain-Monster-X
