@@ -30,6 +30,6 @@ class Base2dSubState
 	public function dispose() {}
 	public function onFocus() {}
 	public function onFocusLost() {}
-	public function onStageResize(width:Float, height:Float) {}
+	public function onStageResize(width:UInt, height:UInt) {}
 	public function onStageScale(ratioX:Float, ratioY:Float) {}
 }

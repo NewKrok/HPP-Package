@@ -48,6 +48,6 @@ class Base2dState
 	public function dispose() { if (activeSubState != null) activeSubState.dispose(); }
 	public function onFocus() { if (activeSubState != null) activeSubState.onFocus(); }
 	public function onFocusLost() { if (activeSubState != null) activeSubState.onFocusLost(); }
-	public function onStageResize(width:Float, height:Float) { if (activeSubState != null) activeSubState.onStageResize(width, height); }
+	public function onStageResize(width:UInt, height:UInt) { if (activeSubState != null) activeSubState.onStageResize(width, height); }
 	public function onStageScale(ratioX:Float, ratioY:Float) { if (activeSubState != null) activeSubState.onStageScale(ratioX, ratioY); }
 }
