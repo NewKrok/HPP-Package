@@ -5,6 +5,7 @@ import h2d.Layers;
 import h2d.Sprite;
 import hpp.heaps.Base2dStage.StagePosition;
 import hpp.heaps.Base2dStage.StageScaleMode;
+import hpp.heaps.HppG;
 import hxd.App;
 import hxd.Stage;
 
@@ -30,6 +31,7 @@ class Base2dApp extends App
 
 		basePlaceHolder = new Graphics(s2d);
 		stage = new Base2dStage(s2d, engine, updateStageScaleMode, updateStagePosition);
+		HppG.setStage2d(stage);
 
 		#if js
 			var canvas:Element = cast Browser.document.getElementById("webgl");

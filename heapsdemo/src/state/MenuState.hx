@@ -35,7 +35,7 @@ class MenuState extends Base2dState
 		openSubState(stageSample);
 	}
 
-	override public function onStageResize(width:Float, height:Float)
+	override public function onStageResize(width:UInt, height:UInt)
 	{
 		rePosition();
 
