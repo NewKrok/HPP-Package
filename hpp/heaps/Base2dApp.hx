@@ -52,7 +52,7 @@ class Base2dApp extends App
 		if (currentState != null) currentState.onFocusLost();
 	}
 
-	public function setDefaultAppSize(width:Int, height:Int):Void
+	public function setDefaultAppSize(width:UInt, height:UInt):Void
 	{
 		stage.defaultWidth = width;
 		stage.defaultHeight = height;

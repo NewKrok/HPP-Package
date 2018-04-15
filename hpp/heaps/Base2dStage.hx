@@ -15,12 +15,12 @@ class Base2dStage extends Layers
 	public var stagePosition(default, set):StagePosition = StagePosition.LEFT_TOP;
 
 	public var showStageBorder(default, set):Bool = false;
-	public var width(get, never):Float;
-	public var height(get, never):Float;
-	public var mouseX(get, never):Float;
-	public var mouseY(get, never):Float;
-	public var defaultWidth:Int = 1136;
-	public var defaultHeight:Int = 640;
+	public var width(get, never):UInt;
+	public var height(get, never):UInt;
+	public var mouseX(get, never):UInt;
+	public var mouseY(get, never):UInt;
+	public var defaultWidth:UInt = 1136;
+	public var defaultHeight:UInt = 640;
 
 	var stageBorder:Graphics;
 
@@ -76,24 +76,24 @@ class Base2dStage extends Layers
 		}
 	}
 
-	function get_width():Float
+	function get_width():UInt
 	{
 		return stageScaleMode == StageScaleMode.NO_SCALE ? engine.width : defaultWidth;
 	}
 
-	function get_height():Float
+	function get_height():UInt
 	{
 		return stageScaleMode == StageScaleMode.NO_SCALE ? engine.height : defaultHeight;
 	}
 
-	function get_mouseX():Float
+	function get_mouseX():UInt
 	{
-		return (s2d.mouseX - x) / scaleX;
+		return cast (s2d.mouseX - x) / scaleX;
 	}
 
-	function get_mouseY():Float
+	function get_mouseY():UInt
 	{
-		return (s2d.mouseY - y) / scaleY;
+		return cast (s2d.mouseY - y) / scaleY;
 	}
 
 	public function onResize():Void
