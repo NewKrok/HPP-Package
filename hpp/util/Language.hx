@@ -9,26 +9,36 @@ import haxe.ds.Map;
 class Language
 {
 	static var data:Map<String, String> = new Map<String, String>();
-	static var textHolders:Map<TextHolder, String> = new Map<TextHolder, String>();
+	static var textHolders:Map<TextHolder, TextData> = new Map<TextHolder, TextData>();
 
 	public static function setLang(data:Map<String, String>)
 	{
 		Language.data = data;
 
-		for (key in textHolders.keys()) key.set_text(Language.get(textHolders.get(key)));
+		for (key in textHolders.keys())
+		{
+			var textData:TextData = textHolders.get(key);
+			key.set_text(Language.get(textData.text, textData.params));
+		}
 	}
 
-	public static function get(key:String):String
+	public static function get(key:String, params:Map<String, Dynamic> = null):String
 	{
-		return Language.data.get(key);
+		var result = Language.data.get(key);
+
+		if (params != null)
+			for (key in params.keys())
+				result = StringTools.replace(result, key, params.get(key));
+
+		return result;
 	}
 
-	public static function registerTextHolder(textHolder:TextHolder, textKey:String):Void
+	public static function registerTextHolder(textHolder:TextHolder, textKey:String, params:Map<String, Dynamic> = null):Void
 	{
 		if (!textHolders.exists(textHolder))
 		{
-			textHolders.set(textHolder, textKey);
-			textHolder.set_text(Language.get(textKey));
+			textHolders.set(textHolder, { text: textKey, params: params });
+			textHolder.set_text(Language.get(textKey, params));
 		}
 		else trace('Warning: Language registerTextHolder: $textKey');
 	}
@@ -47,7 +57,7 @@ class Language
 			textHolders.remove(key);
 		}
 
-		textHolders = new Map<TextHolder, String>();
+		textHolders = new Map<TextHolder, TextData>();
 	}
 }
 
@@ -56,8 +66,8 @@ typedef TextHolder =
 	var set_text:String->Void;
 }
 
-typedef TextHolderData =
+typedef TextData =
 {
-	var textHolder:TextHolder;
 	var text:String;
+	var params:Map<String, Dynamic>;
 }
