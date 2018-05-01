@@ -7,14 +7,12 @@ package hpp.heaps;
 class Base2dState
 {
 	var stage:Base2dStage;
-	var changeState:Class<Base2dState>->Void;
 
 	var activeSubState:Base2dSubState;
 
-	public function new(stage:Base2dStage, changeState:Class<Base2dState>->Void)
+	public function new(stage:Base2dStage)
 	{
 		this.stage = stage;
-		this.changeState = changeState;
 
 		build();
 	}

@@ -13,4 +13,5 @@ class HppG
 	static public function setStage2d(v:Base2dStage) { stage2d = v; }
 
 	public static var stage2d(default, null):Base2dStage;
+	public static var changeState:Class<Base2dState>->?Array<Dynamic>->Void;
 }

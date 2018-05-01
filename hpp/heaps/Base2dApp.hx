@@ -32,6 +32,7 @@ class Base2dApp extends App
 		basePlaceHolder = new Graphics(s2d);
 		stage = new Base2dStage(s2d, engine, updateStageScaleMode, updateStagePosition);
 		HppG.setStage2d(stage);
+		HppG.changeState = changeState;
 
 		#if js
 			var canvas:Element = cast Browser.document.getElementById("webgl");
@@ -60,11 +61,11 @@ class Base2dApp extends App
 		stage.defaultHeight = height;
 	}
 
-	public function changeState(stateClass:Class<Base2dState>):Void
+	public function changeState(stateClass:Class<Base2dState>, ?args:Array<Dynamic>):Void
 	{
 		if (currentState != null) disposeCurrentState();
 
-		currentState = Type.createInstance(stateClass, [stage, changeState]);
+		currentState = Type.createInstance(stateClass, [stage].concat(cast args));
 	}
 
 	function disposeCurrentState()
