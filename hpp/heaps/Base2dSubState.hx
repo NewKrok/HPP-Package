@@ -23,13 +23,14 @@ class Base2dSubState
 	function addChildAt(child:Sprite, index:Int) container.addChildAt(child, index);
 	function removeChild(child:Sprite) container.removeChild(child);
 
-	function build() {}
-	public function onOpen() {}
-	public function onClose() {}
-	public function update(float:Float) {}
-	public function dispose() {}
-	public function onFocus() {}
-	public function onFocusLost() {}
-	public function onStageResize(width:UInt, height:UInt) {}
-	public function onStageScale(ratioX:Float, ratioY:Float) {}
+	function build():Void {}
+
+	public function onOpen():Void {}
+	public function onClose():Void {}
+	public function update(float:Float):Void {}
+	public function dispose():Void {}
+	public function onFocus():Void {}
+	public function onFocusLost():Void {}
+	public function onStageResize(width:UInt, height:UInt):Void {}
+	public function onStageScale(ratioX:Float, ratioY:Float):Void {}
 }

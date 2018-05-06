@@ -57,6 +57,7 @@ class BaseButton extends Layers
 		disabledGraphic.smooth = true;
 
 		label = new Text(config.font == null ? FontBuilder.getFont("Verdana", Selector.firstNotNull([config.fontSize, 12])) : config.font, this);
+		label.smooth = true;
 		label.text = Selector.firstNotNull([config.labelText, ""]);
 		label.textColor = Selector.firstNotNull([config.textColor, 0xFFFFFF]);
 		label.textAlign = Selector.firstNotNull([config.textAlign, Align.Center]);

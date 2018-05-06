@@ -27,25 +27,32 @@ class Base2dState
 		activeSubState.onOpen();
 
 		onSubStateChanged(activeSubState);
+		onSubStateOpened();
 	}
 
-	public function closeSubState()
+	public function closeSubState():Void
 	{
 		if (activeSubState != null)
 		{
 			activeSubState.onClose();
 			stage.removeChild(activeSubState.container);
 			activeSubState = null;
+
+			onSubStateChanged(activeSubState);
+			onSubStateClosed();
 		}
 	}
 
 	function build() {}
-	public function onSubStateChanged(activeSubState:Base2dSubState) {}
 
-	public function update(float:Float) { if (activeSubState != null) activeSubState.update(float); }
-	public function dispose() { if (activeSubState != null) activeSubState.dispose(); }
-	public function onFocus() { if (activeSubState != null) activeSubState.onFocus(); }
-	public function onFocusLost() { if (activeSubState != null) activeSubState.onFocusLost(); }
-	public function onStageResize(width:UInt, height:UInt) { if (activeSubState != null) activeSubState.onStageResize(width, height); }
-	public function onStageScale(ratioX:Float, ratioY:Float) { if (activeSubState != null) activeSubState.onStageScale(ratioX, ratioY); }
+	public function onSubStateChanged(activeSubState:Base2dSubState):Void {}
+	public function onSubStateOpened():Void {}
+	public function onSubStateClosed():Void {}
+
+	public function update(float:Float):Void { if (activeSubState != null) activeSubState.update(float); }
+	public function dispose():Void { if (activeSubState != null) activeSubState.dispose(); }
+	public function onFocus():Void { if (activeSubState != null) activeSubState.onFocus(); }
+	public function onFocusLost():Void { if (activeSubState != null) activeSubState.onFocusLost(); }
+	public function onStageResize(width:UInt, height:UInt):Void { if (activeSubState != null) activeSubState.onStageResize(width, height); }
+	public function onStageScale(ratioX:Float, ratioY:Float):Void { if (activeSubState != null) activeSubState.onStageScale(ratioX, ratioY); }
 }
