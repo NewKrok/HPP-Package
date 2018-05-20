@@ -53,7 +53,7 @@ class BaseButton extends Layers
 		overGraphic.smooth = true;
 		selectedGraphic = new Bitmap(config.selectedGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .3) : baseGraphic.tile.clone() : config.selectedGraphic);
 		selectedGraphic.smooth = true;
-		disabledGraphic = new Bitmap(config.disabledGraphic == null ? config.selectedGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .1) : selectedGraphic.tile.clone() : config.disabledGraphic);
+		disabledGraphic = new Bitmap(config.disabledGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .1) : baseGraphic.tile.clone() : config.disabledGraphic);
 		disabledGraphic.smooth = true;
 
 		label = new Text(config.font == null ? FontBuilder.getFont("Verdana", Selector.firstNotNull([config.fontSize, 12])) : config.font, this);
