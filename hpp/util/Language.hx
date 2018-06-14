@@ -43,6 +43,26 @@ class Language
 		else trace('Warning: Language registerTextHolder: $textKey');
 	}
 
+	public static function updateTextHolderText(textHolder:TextHolder, textKey:String):Void
+	{
+		if (textHolders.exists(textHolder))
+		{
+			textHolders.get(textHolder).text = textKey;
+			textHolder.set_text(Language.get(textKey, textHolders.get(textHolder).params));
+		}
+		else trace('Warning: Language updateTextHolderText: $textKey');
+	}
+
+	public static function updateTextHolderParams(textHolder:TextHolder, params:Map<String, Dynamic>):Void
+	{
+		if (textHolders.exists(textHolder))
+		{
+			textHolders.get(textHolder).params = params;
+			textHolder.set_text(Language.get(textHolders.get(textHolder).text, params));
+		}
+		else trace('Warning: Language updateTextHolderParams: $params');
+	}
+
 	public static function unregisterTextHolder(textHolder:TextHolder):Void
 	{
 		if (textHolders.exists(textHolder)) textHolders.remove(textHolder);
