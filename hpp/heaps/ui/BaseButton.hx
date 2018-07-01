@@ -27,6 +27,7 @@ class BaseButton extends Layers
 	public var onDeselected(null, set):BaseButton->Void;
 	public var textOffset(default, set):SimplePoint;
 
+	public var overScale:Float;
 	public var overAlpha:Float;
 	public var selectedAlpha:Float;
 
@@ -51,6 +52,10 @@ class BaseButton extends Layers
 		baseGraphic.smooth = true;
 		overGraphic = new Bitmap(config.overGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0x606060, 175, 35) : baseGraphic.tile.clone() : config.overGraphic);
 		overGraphic.smooth = true;
+		overGraphic.tile.dx = cast -overGraphic.tile.width / 2;
+		overGraphic.tile.dy = cast -overGraphic.tile.height / 2;
+		overGraphic.x = -overGraphic.tile.dx;
+		overGraphic.y = -overGraphic.tile.dy;
 		selectedGraphic = new Bitmap(config.selectedGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .3) : baseGraphic.tile.clone() : config.selectedGraphic);
 		selectedGraphic.smooth = true;
 		disabledGraphic = new Bitmap(config.disabledGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .1) : baseGraphic.tile.clone() : config.disabledGraphic);
@@ -73,6 +78,7 @@ class BaseButton extends Layers
 		isEnabled = Selector.firstNotNull([config.isEnabled, true]);
 		isSelectable = Selector.firstNotNull([config.isSelectable, false]);
 		isSelected = Selector.firstNotNull([config.isSelected, false]);
+		overScale = Selector.firstNotNull([config.overScale, 1]);
 		overAlpha = Selector.firstNotNull([config.overAlpha, 1]);
 		selectedAlpha = Selector.firstNotNull([config.selectedAlpha, 1]);
 
@@ -88,11 +94,13 @@ class BaseButton extends Layers
 		removeChild(selectedGraphic);
 		removeChild(baseGraphic);
 
+		overGraphic.setScale(overScale);
 		overGraphic.alpha = overAlpha;
 	}
 
 	function onOutHandler(_)
 	{
+		overGraphic.scale(1);
 		overGraphic.alpha = 1;
 
 		if (!isEnabled)
@@ -253,6 +261,7 @@ typedef BaseButtonConfig = {
 	@:optional var isSelectable:Bool;
 	@:optional var isSelected:Bool;
 	@:optional var isEnabled:Bool;
+	@:optional var overScale:Float;
 	@:optional var overAlpha:Float;
 	@:optional var selectedAlpha:Float;
 }
