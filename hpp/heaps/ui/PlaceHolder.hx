@@ -1,7 +1,7 @@
 package hpp.heaps.ui;
 
 import h2d.Graphics;
-import h2d.Sprite;
+import h2d.Object;
 
 /**
  * ...
@@ -9,7 +9,7 @@ import h2d.Sprite;
  */
 class PlaceHolder extends Graphics
 {
-	public function new(?parent:Sprite, width:Float = 1, height:Float = 1, color:Int = 0x000000, alpha:Float = 0)
+	public function new(?parent:Object, width:Float = 1, height:Float = 1, color:Int = 0x000000, alpha:Float = 0)
 	{
 		super(parent);
 
