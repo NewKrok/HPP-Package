@@ -28,9 +28,17 @@ class Base2dSubState
 	public function onOpen():Void {}
 	public function onClose():Void {}
 	public function update(float:Float):Void {}
-	public function dispose():Void {}
 	public function onFocus():Void {}
 	public function onFocusLost():Void {}
 	public function onStageResize(width:UInt, height:UInt):Void {}
 	public function onStageScale(ratioX:Float, ratioY:Float):Void {}
+	
+	public function dispose():Void
+	{
+		if (container != null)
+		{
+			container.remove();
+			container = null;
+		}
+	}
 }
