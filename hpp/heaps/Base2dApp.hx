@@ -44,13 +44,11 @@ class Base2dApp extends App
 
 	public function onFocus():Void
 	{
-		wantedFPS = 60;
 		if (currentState != null) currentState.onFocus();
 	}
 
 	public function onFocusLost():Void
 	{
-		wantedFPS = 0;
 		if (currentState != null) currentState.onFocusLost();
 	}
 
