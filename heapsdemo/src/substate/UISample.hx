@@ -24,7 +24,7 @@ class UISample extends Base2dSubState
 		content = new Flow(container);
 		content.verticalSpacing = 20;
 		content.horizontalSpacing = 20;
-		content.isVertical = false;
+		content.layout = Horizontal;
 		content.verticalAlign = FlowAlign.Top;
 		content.multiline = true;
 

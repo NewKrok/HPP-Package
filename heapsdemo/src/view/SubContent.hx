@@ -1,7 +1,7 @@
 package view;
 
 import h2d.Flow;
-import h2d.Sprite;
+import h2d.Object;
 import h2d.Tile;
 import hpp.heaps.ui.PlaceHolder;
 import hpp.heaps.ui.TextWithSize;
@@ -13,7 +13,7 @@ import hxd.res.FontBuilder;
  */
 class SubContent extends Flow
 {
-	public function new(parent:Sprite, width:Int, labelText:String)
+	public function new(parent:Object, width:Int, labelText:String)
 	{
 		super(parent);
 
@@ -22,7 +22,7 @@ class SubContent extends Flow
 		minWidth = width;
 		maxWidth = width;
 		horizontalAlign = FlowAlign.Left;
-		isVertical = true;
+		layout = Vertical;
 		backgroundTile = Tile.fromColor(0x000000, 1, 1, .4);
 
 		var label:TextWithSize = new TextWithSize(FontBuilder.getFont("Verdana", 12), this);

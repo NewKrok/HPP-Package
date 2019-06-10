@@ -1,7 +1,7 @@
 package view;
 
 import h2d.Flow;
-import h2d.Sprite;
+import h2d.Object;
 import hpp.heaps.ui.LinkedButton;
 import hpp.heaps.ui.TextWithSize;
 import hxd.Res;
@@ -15,7 +15,7 @@ class Menu extends Flow
 {
 	var buttons:Array<LinkedButton> = [];
 
-	public function new(parent:Sprite, openStageSample:Void->Void, openUISample:Void->Void)
+	public function new(parent:Object, openStageSample:Void->Void, openUISample:Void->Void)
 	{
 		super(parent);
 

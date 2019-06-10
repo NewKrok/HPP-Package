@@ -1,6 +1,6 @@
 package view;
 
-import h2d.Sprite;
+import h2d.Object;
 import h2d.Text.Align;
 import h2d.col.Bounds;
 import hpp.heaps.ui.LinkedButton;
@@ -13,7 +13,7 @@ import hxd.res.FontBuilder;
  */
 class Checkbox extends LinkedButton
 {
-	public function new(parent:Sprite, labelText:String, callback:Void->Void)
+	public function new(parent:Object, labelText:String, callback:Void->Void)
 	{
 		super(
 			parent,

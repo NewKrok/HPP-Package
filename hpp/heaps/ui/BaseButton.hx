@@ -56,7 +56,7 @@ class BaseButton extends Layers
 		overGraphic.tile.dy = cast -overGraphic.tile.height / 2;
 		overGraphic.x = -overGraphic.tile.dx;
 		overGraphic.y = -overGraphic.tile.dy;
-		selectedGraphic = new Bitmap(config.selectedGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .3) : baseGraphic.tile.clone() : config.selectedGraphic);
+		selectedGraphic = new Bitmap(config.selectedGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0x222222, 175, 35, 1) : baseGraphic.tile.clone() : config.selectedGraphic);
 		selectedGraphic.smooth = true;
 		disabledGraphic = new Bitmap(config.disabledGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .1) : baseGraphic.tile.clone() : config.disabledGraphic);
 		disabledGraphic.smooth = true;
@@ -103,7 +103,7 @@ class BaseButton extends Layers
 		overGraphic.scale(1);
 		overGraphic.alpha = 1;
 
-		if (!isEnabled)
+		if (!isEnabled && !isSelected)
 		{
 			addChildAt(disabledGraphic, -1);
 			removeChild(selectedGraphic);
@@ -243,6 +243,27 @@ class BaseButton extends Layers
 		onOutHandler(null);
 
 		return isEnabled;
+	}
+
+	public function dispose()
+	{
+		interactive.onClick = null;
+		interactive.onOver = null;
+		interactive.onOut = null;
+		interactive.remove();
+		interactive = null;
+
+		baseGraphic.remove();
+		baseGraphic = null;
+		overGraphic.remove();
+		overGraphic = null;
+		selectedGraphic.remove();
+		selectedGraphic = null;
+		disabledGraphic.remove();
+		disabledGraphic = null;
+
+		label.remove();
+		label = null;
 	}
 }
 

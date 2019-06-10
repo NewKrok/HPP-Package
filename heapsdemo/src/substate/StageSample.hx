@@ -26,7 +26,7 @@ class StageSample extends Base2dSubState
 
 		content = new Flow(container);
 		content.verticalSpacing = 20;
-		content.isVertical = true;
+		content.layout = Vertical;
 
 		createStageScalePanel();
 		createStagePositionPanel();
@@ -61,7 +61,7 @@ class StageSample extends Base2dSubState
 		var subContent:SubContent = new SubContent(content, 660, "Change stage position (Only for stage 'Show all' mode)");
 
 		var grid:Flow = new Flow(subContent);
-		grid.isVertical = false;
+		grid.layout = Horizontal;
 		grid.maxWidth = subContent.minWidth;
 		grid.multiline = true;
 		grid.horizontalSpacing = 20;
