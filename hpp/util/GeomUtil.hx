@@ -15,6 +15,11 @@ class GeomUtil
 	{
 		return Math.atan2(targetB.y - targetA.y, targetB.x - targetA.x);
 	}
+	
+	public static function cloneSimplePoint(point:SimplePoint):SimplePoint
+	{
+		return { x: point.x, y: point.y };
+	}
 }
 
 typedef SimplePoint = {
