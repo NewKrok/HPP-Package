@@ -2,6 +2,7 @@ package hpp.heaps.ui;
 
 import h2d.Bitmap;
 import h2d.Font;
+import h2d.Graphics;
 import h2d.Interactive;
 import h2d.Layers;
 import h2d.Text;
@@ -52,14 +53,17 @@ class BaseButton extends Layers
 		baseGraphic.smooth = true;
 		overGraphic = new Bitmap(config.overGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0x606060, 175, 35) : baseGraphic.tile.clone() : config.overGraphic);
 		overGraphic.smooth = true;
-		overGraphic.tile.dx = cast -overGraphic.tile.width / 2;
-		overGraphic.tile.dy = cast -overGraphic.tile.height / 2;
-		overGraphic.x = -overGraphic.tile.dx;
-		overGraphic.y = -overGraphic.tile.dy;
+		overGraphic.x = baseGraphic.tile.width / 2 - overGraphic.tile.width / 2;
+		overGraphic.y = baseGraphic.tile.height / 2 - overGraphic.tile.height / 2;
 		selectedGraphic = new Bitmap(config.selectedGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0x222222, 175, 35, 1) : baseGraphic.tile.clone() : config.selectedGraphic);
 		selectedGraphic.smooth = true;
 		disabledGraphic = new Bitmap(config.disabledGraphic == null ? config.baseGraphic == null ? Tile.fromColor(0xFFFFFF, 175, 35, .1) : baseGraphic.tile.clone() : config.disabledGraphic);
 		disabledGraphic.smooth = true;
+
+		var g = new Graphics(this);
+		g.beginFill(0x0, 0);
+		g.drawRect(0, 0, baseGraphic.tile.width, baseGraphic.tile.height);
+		g.endFill();
 
 		label = new Text(config.font == null ? FontBuilder.getFont("Verdana", Selector.firstNotNull([config.fontSize, 12])) : config.font, this);
 		label.smooth = true;
@@ -73,6 +77,8 @@ class BaseButton extends Layers
 		interactive.onClick = onClickHandler;
 		interactive.onOver = onOverHandler;
 		interactive.onOut = onOutHandler;
+		interactive.onPush = config.onPush != null ? function(_) { config.onPush(this); } : function(_) {};
+		interactive.onRelease = config.onRelease != null ? function(_) { config.onRelease(this); } : function(_) {};
 
 		textOffset = Selector.firstNotNull([config.textOffset, { x: 0, y: 0 }]);
 		isEnabled = Selector.firstNotNull([config.isEnabled, true]);
@@ -95,6 +101,9 @@ class BaseButton extends Layers
 		removeChild(baseGraphic);
 
 		overGraphic.setScale(overScale);
+		overGraphic.x = baseGraphic.tile.width / 2 - overGraphic.tile.width * overScale / 2;
+		overGraphic.y = baseGraphic.tile.height / 2 - overGraphic.tile.height * overScale / 2;
+
 		overGraphic.alpha = overAlpha;
 	}
 
@@ -268,7 +277,9 @@ class BaseButton extends Layers
 }
 
 typedef BaseButtonConfig = {
-	var onClick:BaseButton->Void;
+	@:optional var onClick:BaseButton->Void;
+	@:optional var onPush:BaseButton->Void;
+	@:optional var onRelease:BaseButton->Void;
 	@:optional var labelText:String;
 	@:optional var textOffset:SimplePoint;
 	@:optional var textAlign:Align;
