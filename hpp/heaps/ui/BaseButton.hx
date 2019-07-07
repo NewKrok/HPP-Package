@@ -10,6 +10,8 @@ import h2d.Tile;
 import hpp.util.GeomUtil.SimplePoint;
 import hpp.util.Selector;
 import hxd.Cursor;
+import hxd.Event;
+import hxd.Event.EventKind;
 import hxd.res.FontBuilder;
 
 /**
@@ -75,10 +77,27 @@ class BaseButton extends Layers
 		interactive = new Interactive(baseGraphic.tile.width, baseGraphic.tile.height, this);
 		interactive.cursor = Cursor.Button;
 		interactive.onClick = onClickHandler;
-		interactive.onOver = onOverHandler;
-		interactive.onOut = onOutHandler;
-		interactive.onPush = config.onPush != null ? function(_) { config.onPush(this); } : function(_) {};
-		interactive.onRelease = config.onRelease != null ? function(_) { config.onRelease(this); } : function(_) {};
+
+		if (!config.handleMultiTouch)
+		{
+			interactive.onOver = onOverHandler;
+			interactive.onOut = onOutHandler;
+		}
+
+		interactive.onPush = config.onPush != null ? function(_) {
+			if (config.handleMultiTouch) onOverHandler(null);
+			config.onPush(this);
+		} : function(_) {};
+		interactive.onRelease = config.onRelease != null ? function(e) {
+			if (config.handleMultiTouch)
+			{
+				if (e.kind == EventKind.ERelease)
+				{
+					onOutHandler(null);
+					config.onRelease(this);
+				}
+			} else config.onRelease(this);
+		} : function(_) {};
 
 		textOffset = Selector.firstNotNull([config.textOffset, { x: 0, y: 0 }]);
 		isEnabled = Selector.firstNotNull([config.isEnabled, true]);
@@ -296,4 +315,5 @@ typedef BaseButtonConfig = {
 	@:optional var overScale:Float;
 	@:optional var overAlpha:Float;
 	@:optional var selectedAlpha:Float;
+	@:optional var handleMultiTouch:Bool;
 }
