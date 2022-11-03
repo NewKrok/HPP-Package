@@ -9,11 +9,11 @@ Some useful classes for our Haxe and HaxeFlixel projects
 ## Usage
 You can easily install it with this command:
 ```
-haxelib git hpp git://github.com/NewKrok/HPP-Package.git
+haxelib git hpp https://github.com/NewKrok/HPP-Package.git
 ```
 And after just add it to your project like this:
 ```
-<haxelib name="hpp" src="git://github.com/NewKrok/HPP-Package.git" />
+<haxelib name="hpp" src="https://github.com/NewKrok/HPP-Package.git" />
 ```
 
 ## Build demos
